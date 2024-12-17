@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Navbar from './Navbar';
+import SearchBar from './searchBar';
 
+var loggedIn = false;
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const navigationBar = (
     <div>
-        <Navbar />
-        <h1>Hello everybody my name is Welcome</h1>
+        <Navbar loggedIn = {loggedIn}/>
+        <SearchBar />
+        <h1>Recommended</h1>
     </div>
 );
 
