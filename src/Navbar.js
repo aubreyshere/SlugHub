@@ -1,18 +1,21 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Navbar.css';   // to alter the appearance of Navbar.js program
 
 const Navbar = (props) => {
+    const navigate = useNavigate();
+
     return (
         <nav className='navbar'>
             <ul className='nav-links'>
                 <li>
-                    <a href='/'>Home</a>
+                    <button onClick = {()=>{navigate('/')}}>Home</button>
                 </li>
                 <li>
-                    {props.loggedIn === true ? <a href='/create-event'>Create an Event</a> : <a href='/sign-in'>Create an Event</a>}
+                    {props.loggedIn === true ? <button onClick = {()=>{navigate('/create-event')}}>Create Event</button> : <button onClick = {()=>{navigate('/sign-in')}}>Create Event</button>}
                 </li>
                 <li>
-                    {props.loggedIn === true ? <a href='/profile'>Profile</a> : <a href='/sign-in'>Profile</a>}
+                {props.loggedIn === true ? <button onClick = {()=>{navigate('/profile')}}>Profile</button> : <button onClick = {()=>{navigate('/sign-in')}}>Profile</button>}
                 </li>
             </ul>
         </nav>
