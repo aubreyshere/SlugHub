@@ -8,9 +8,32 @@
     z-index: 1000;
     place-items: center;
 }
-.searchForm {
-    margin:auto;
+.search-form {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    background-color: white;
+    height: 35px;
+    border-radius: 10px;
 }
 .search-button {
     margin-left: 20px;
+    background-color: white;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
 }
+
+.search-input {
+    border: none;
+}
+.search-input:focus {
+    outline: none;
+  }
+.search-icon {
+    width: 20px;
+    height: auto; 
+    background-color: transparent;
+  }
+  

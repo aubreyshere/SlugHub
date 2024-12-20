@@ -11,7 +11,7 @@ const SearchBar = () => {
           className="search-input"
           placeholder="Search events..."
         />
-        <button type="submit" className="search-button">Search</button>
+        <button type="submit" className="search-button"><img className= 'search-icon' src='/images/search-icon-png-21.png' alt='searchIcon'/></button>
       </form>
     </div>
   );

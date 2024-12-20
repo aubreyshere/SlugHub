@@ -1,17 +1,23 @@
 import React from 'react';
 import './SignIn.css';
 import reportWebVitals from './reportWebVitals';
-import Navbar from './Navbar';
 
 const SignIn = () => {
-    var loggedIn = false;
     return (
-        <div>
+        <div className = 'container'>
             <div className='signInBox'>
+                <div className = 'user'>
                 <h1>Email or Username</h1>
-                <input type="text" />
-                <h2>Password</h2>
-                <input type="password" />
+                <input className='usernameInput' type="text" />
+                </div>
+                <div className='pass'>
+                <h1>Password</h1>
+                <input className='passwordInput' type="password" />
+                </div>
+                <br />
+                <button className='signButton'>Sign in</button>
+                <br />
+                <button className='forgotPass'>forgot password?</button>
             </div>
         </div>
     );

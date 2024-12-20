@@ -5,31 +5,26 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Navbar from './Navbar';
-import SearchBar from './searchBar';
 import SignIn from './SignIn'; 
+import Homepage from './Homepage'
 
 
-var loggedIn = false;
+var loggedIn = false; // default for now
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const navigationBar = (
+const pages = (
     <BrowserRouter>
     <div>
-        <Navbar loggedIn = {loggedIn}/>
+        <Navbar loggedIn = {loggedIn}/> {/*outside of routes so its shown on all pages */}
     </div>
-        <Routes>
-            <Route path="/" element={(
-                <div>
-                    <SearchBar />
-                    <h1>Recommended</h1>
-                </div>)
-            } />
+        <Routes> {/*the routes show the file that will be loaded on each page*/}
+            <Route path="/" element={<Homepage />} />
             <Route path="/sign-in" element={<SignIn />} />
         </Routes>
     </BrowserRouter>
 );
 
-root.render(navigationBar);
+root.render(pages);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

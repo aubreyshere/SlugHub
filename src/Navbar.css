@@ -1,29 +1,40 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+}
+
 .navbar {
     background-color: #003566;
-    padding: 10px;
     position: sticky;
     top: 0;
     width: 100%;
-    z-index: 1000;
     text-align: right;
+    padding: 0;
+    margin: 0; 
+    height: 75px; 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Larger shadow */
+    z-index: 9999; /* Ensure it's on top */
 }
 
 .nav-links {
     list-style-type: none;
     padding: 0;
+    margin: 0; 
 }
 
-    .nav-links li {
-        display: inline;
-        margin-right: 20px;
-    }
+.buttonNav {
+    background-color: #003566;
+    height: 75px;
+    margin: 0; 
+    padding: 0; 
+    width: 100px;
+    cursor: pointer;
+    color: white;
+    border: none;
+    font-size:12pt;
+}
 
-    .nav-links a {
-        color: white;
-        text-decoration: none;
-        font-size: 18px;
-    }
-
-        .nav-links a:hover {
-            color: #ddd;
-        }
+.nav-links .buttonNav:hover {
+    color: #ddd;
+}
