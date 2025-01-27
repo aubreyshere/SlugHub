@@ -1,0 +1,67 @@
+.container {
+    display: flex;
+    justify-content: center;  
+    align-items: center;      
+    height: 80vh;
+}
+
+.signInBox {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    background-color: aliceblue;
+    height: 300px;
+    width: 400px;
+}
+.user {
+    padding:10px;
+    font-size: 8pt;
+    width: 80%;
+}
+.usernameInput {
+    width: 100%;
+}
+.pass {
+    font-size: 8pt;
+    padding:10px;
+    width: 80%;
+}
+
+.passwordInput {
+    width: 100%;
+}
+
+.signButton {
+    border: none;
+    cursor: pointer;
+    width: 80%;
+    height: 30px;
+    color: white;
+    background-color: #003566;
+}
+
+.signInBox .signButton:hover {
+    color: #ddd;
+}
+.noAccount {
+    font-size: 10pt;
+}
+.createAccountLink {
+    color: #006bae;
+    text-decoration: underline;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    font-size: 10pt;
+}
+.forgotPass {
+    color: #006bae;
+    text-decoration: underline;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    font-size: 10pt;
+}
