@@ -14,17 +14,25 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "index.js",
               "DocumentMoniker": "C:\\Users\\aubre\\Source\\Repos\\SlugHub\\src\\index.js",
               "RelativeDocumentMoniker": "src\\index.js",
-              "ToolTip": "C:\\Users\\aubre\\Source\\Repos\\SlugHub\\src\\index.js*",
-              "RelativeToolTip": "src\\index.js*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAA0AAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\aubre\\Source\\Repos\\SlugHub\\src\\index.js",
+              "RelativeToolTip": "src\\index.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2024-12-16T22:59:20.224Z",
               "EditorCaption": ""

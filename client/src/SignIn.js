@@ -1,8 +1,12 @@
 import React from 'react';
 import './SignIn.css';
+import { useNavigate } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 
+
+
 const SignIn = () => {
+    const navigate = useNavigate()
     return (
 
         <div className = 'container'>
@@ -18,6 +22,10 @@ const SignIn = () => {
                 <br />
                 <button className='signButton'>Sign in</button>
                 <br />
+                <div className='noAccount'>
+                    Don't have an account?
+                    <button className='createAccountLink' onClick={()=>{navigate('/create-account')}}>Create one!</button>
+                </div>
                 <button className='forgotPass'>forgot password?</button>
             </div>
         </div>

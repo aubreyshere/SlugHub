@@ -8,6 +8,7 @@ import Navbar from './Navbar';
 import SignIn from './SignIn'; 
 import Homepage from './Homepage'
 import CreateEvent from './CreateEvent'
+import CreateAccount from './CreateAccount'
 
 
 var loggedIn = false; // default for now
@@ -22,6 +23,7 @@ const pages = (
             <Route path="/" element={<Homepage />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/create-event" element={<CreateEvent />} />
+            <Route path="/create-account" element={<CreateAccount />} />
         </Routes>
     </BrowserRouter>
 );

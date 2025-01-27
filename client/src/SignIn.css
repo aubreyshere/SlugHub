@@ -44,6 +44,18 @@
 .signInBox .signButton:hover {
     color: #ddd;
 }
+.noAccount {
+    font-size: 10pt;
+}
+.createAccountLink {
+    color: #006bae;
+    text-decoration: underline;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    font-size: 10pt;
+}
 .forgotPass {
     color: #006bae;
     text-decoration: underline;
@@ -51,6 +63,7 @@
     outline: none;
     border: none;
     cursor: pointer;
+    font-size: 10pt;
 }
 
 
