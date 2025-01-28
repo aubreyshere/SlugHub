@@ -12,7 +12,15 @@ const SignIn = () => {
     const [password, setPassword] = useState(''); // add this
     function handleSubmit(event) {
         event.preventDefault();
-        axios.post('http://localhost:4000/users', {email, password}).then(res => console.log(res)).catch(err => console.log(err));
+        console.log('Submitting email and password:', { email, password }); // Debugging log
+
+        axios.post('http://localhost:4000/users', { email, password })
+            .then(res => {
+                console.log('Response:', res);
+            })
+            .catch(err => {
+                console.error('Error:', err);
+            });
     }
 
     return (

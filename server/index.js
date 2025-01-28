@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
+const bcrypt = require('bcrypt');
 
 const app = express();
 
@@ -16,27 +17,78 @@ const corsOptions = {
 app.use(cors(corsOptions)); 
 app.use(bodyParser.json()); 
 
-const db = mysql.createConnection({
+const db = mysql.createConnection({ // local database, only works on my computer unless you set up your own and change info
     host: "localhost",
     user: "root",
-    password: '',
+    password: '15644651!Ah',
     database: 'sluggyhub',
 });
 
-const bcrypt = require('bcrypt');
+app.get('/', (req, res) => {
+    res.send('meow');
+});
+
+// Signup Route
+app.post('/signup', (req, res) => {
+    const { username, email, password } = req.body;
+
+    const createdAt = new Date();
+    console.log('Reached signup');
+
+    if (!username || !email || !password) {
+        return res.status(400).json({ message: 'All fields are required!' });
+    }
+
+    // Example password strength check
+    if (password.length < 8) {
+        return res.status(400).json({ message: 'Password must be at least 8 characters long!' });
+    }
+
+    bcrypt.hash(password, 10, (err, hashedPassword) => {
+        if (err) {
+            console.error('Error hashing password:', err);
+            return res.status(500).json({ message: 'Internal server error' });
+        }
+
+        const query = 'INSERT INTO users (username, email, password, created_at) VALUES (?, ?, ?, ?)';
+        db.query(query, [username, email, hashedPassword, createdAt], (err, result) => {
+            if (err) {
+                console.error('Error creating account: ', err);
+                return res.status(500).json({ message: 'Failed to create account' });
+            }
+            console.log('New user created successfully!');
+            return res.status(201).json({ message: 'User created successfully' });
+        });
+    });
+});
 
 app.post('/users', (req, res) => {
-    const sql = 'SELECT * FROM users WHERE email = ?';
+    const { email, password } = req.body;
 
-    db.query(sql, [req.body.email], (err, data) => {
+    console.log('Request body:', req.body);
+
+    if (!email || !password) {
+        return res.status(400).json({ message: "Email and password are required." });
+    }
+
+    const cleanedEmail = email.trim().toLowerCase();  // Clean the email and make it lowercase
+    const cleanedPassword = password.trim();  // Clean the password
+
+    const sql = 'SELECT * FROM users WHERE email = ?';
+    db.query(sql, [cleanedEmail], (err, data) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).json({ message: "Internal server error." });
         }
         if (data.length > 0) {
             const user = data[0];
+
             // Compare hashed password
-            bcrypt.compare(req.body.password, user.password, (err, result) => {
+            bcrypt.compare(cleanedPassword, user.password, (err, result) => {
+                if (err) {
+                    console.error('bcrypt error:', err);
+                    return res.status(500).json({ message: "Internal server error." });
+                }
                 if (result) {
                     return res.json({ message: "Login successful." });
                 } else {
@@ -48,11 +100,6 @@ app.post('/users', (req, res) => {
         }
     });
 });
-
-app.get('/', (req, res) => {
-    return res.json("From server side");
-});
-
 
 const port = 4000;
 app.listen(port, () => {

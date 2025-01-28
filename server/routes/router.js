@@ -1,8 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
+
 router.get('/users', (req, res) => {
-    // database stuff here ig
+    res.json({ message: "Users route accessed" });
 });
+
+router.get('/signup', (req, res) => {
+    res.json({ message: "signup route accessed" });
+});
+
 
 module.exports = router;
