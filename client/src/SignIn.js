@@ -37,13 +37,13 @@ const SignIn = () => {
                     <input className='passwordInput' type="password" placeholder="Enter Password" onChange={ e => setPassword(e.target.value)}/>
                     </div>
                     <br />
-                    <button className='signButton'>Sign in</button>
+                    <button className='signIn-signButton'>Sign in</button>
                     <br />
                     <div className='noAccount'>
                         Don't have an account?
                         <button className='createAccountLink' onClick={()=>{navigate('/create-account')}}>Create one!</button>
                     </div>
-                    <button className='forgotPass'>forgot password?</button>
+                    <button className='forgotPass'>Forgot password?</button>
                 </form>
             </div>
         </div>

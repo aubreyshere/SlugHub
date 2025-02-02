@@ -39,7 +39,7 @@ const CreateAccount = () => {
 
   return (
     <div className='container'>
-      <div className='signInBox'>
+      <div className='signUpBox'>
         <form onSubmit={handleSubmit}>
           <div className='email'>
             <h1>Email</h1>
@@ -52,7 +52,7 @@ const CreateAccount = () => {
               onChange={handleChange}
             />
           </div>
-          <div className='email'>
+          <div className='username'>
             <h1>Username</h1>
             <input
               className='usernameInput'
@@ -77,7 +77,7 @@ const CreateAccount = () => {
           <div className='passConfirm'>
             <h1>Confirm Password</h1>
             <input
-              className='passwordInput'
+              className='passwordConfirmInput'
               type='password'
               placeholder='Confirm Password'
               name='confirmPassword'
@@ -86,7 +86,7 @@ const CreateAccount = () => {
             />
           </div>
           <br />
-          <button className='signButton'>Create Account</button>
+          <button className='createAccount-signButton'>Create Account</button>
           <br />
           <div className='noAccount'>
             Have an account?

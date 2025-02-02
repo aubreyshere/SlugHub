@@ -1,3 +1,6 @@
+body {
+    font-family: 'Segoe UI', sans-serif; /* Replace with your preferred font */
+}
 .container {
     display: flex;
     justify-content: center;  
@@ -8,19 +11,22 @@
 .signInBox {
     display: flex; 
     flex-direction: column;
-    justify-content: center; 
+    justify-content: center;
     align-items: center; 
     background-color: aliceblue;
+    border-radius: 10px;
     height: 300px;
+    position: relative;
     width: 400px;
 }
 .user {
-    padding:10px;
+    padding: 10px;
     font-size: 8pt;
     width: 80%;
 }
 .usernameInput {
     width: 100%;
+    border-radius: 5px;
 }
 .pass {
     font-size: 8pt;
@@ -30,18 +36,24 @@
 
 .passwordInput {
     width: 100%;
+    border-radius: 5px;
 }
 
-.signButton {
+.signIn-signButton {
     border: none;
     cursor: pointer;
-    width: 80%;
+    width: 70%;
     height: 30px;
     color: white;
     background-color: #003566;
+    font-family: 'Segoe UI', sans-serif;
+    position: absolute;
+    bottom: 55px; /* places button at the bottom of the box */
+    left: 50%; /* horizontally positioned at center */
+    transform: translateX(-50%); /* horizontally translated to center */
 }
 
-.signInBox .signButton:hover {
+.signInBox .signIn-signButton:hover {
     color: #ddd;
 }
 .noAccount {
@@ -55,15 +67,16 @@
     border: none;
     cursor: pointer;
     font-size: 10pt;
+    font-family: 'Segoe UI', sans-serif;
 }
 .forgotPass {
     color: #006bae;
     text-decoration: underline;
     background-color: transparent;
+    text-align: center;
     outline: none;
     border: none;
     cursor: pointer;
     font-size: 10pt;
+    font-family: 'Segoe UI', sans-serif;
 }
-
-
