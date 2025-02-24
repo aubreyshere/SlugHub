@@ -8,7 +8,7 @@ const CreateEvent = () => {
   const [values, setValues] = useState({
     title: '',
     description: '',
-    photo: '', // Will hold the image URL
+    photo: '',
     date: '',
     startTime: '',
     endTime: '',
@@ -53,32 +53,36 @@ const CreateEvent = () => {
       <div className="createBox">
         <form className="infoFill" onSubmit={handleSubmit}>
           <div className="leftBox">
-            {/* Image Upload Input */}
-            {!values.photo ? (
-              <input
-                className="eventImageUpload"
-                type="file"
-                accept="image/*"
-                name="photo"
-                onChange={(e) => {
-                  const file = e.target.files[0];
-                  if (file) {
-                    const reader = new FileReader(); // Handles getting and displaying photo
-                    reader.onload = (event) => {
-                      setValues({ ...values, photo: event.target.result }); // Set image data URL to state
-                    };
-                    reader.readAsDataURL(file); // Convert file to base64 string
-                  }
-                }}
-              />
-            ) : (
-              // Once the photo is uploaded, display it in place of the input
-              <img
-                src={values.photo}
-                alt="Uploaded"
-                style={{ maxWidth: '100%', marginTop: '10px', borderRadius: '8px' }}
-              />
-            )}
+            {/* File input for image upload (hidden) */}
+            <input
+              id="fileInput"
+              type="file"
+              accept="image/*"
+              name="photo"
+              style={{ display: 'none' }} // Hide the file input
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onload = (event) => {
+                    setValues({ ...values, photo: event.target.result });
+                  };
+                  reader.readAsDataURL(file);
+                }
+              }}
+            />
+            {/* Custom upload button or image preview */}
+            <label htmlFor="fileInput" className="uploadButton">
+              {values.photo ? (
+                <img
+                  src={values.photo}
+                  alt="Preview"
+                  className="uploadedImage"
+                />
+              ) : (
+                'Upload Image'
+              )}
+            </label>
             <br />
             <input
               className="eventNameUpload"
