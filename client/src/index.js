@@ -11,7 +11,7 @@ import CreateEvent from './CreateEvent'
 import CreateAccount from './CreateAccount'
 
 
-var loggedIn = false; // default for now
+var loggedIn = true; // default for now
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const pages = (

@@ -28,6 +28,40 @@ app.get('/', (req, res) => {
     res.send('meow');
 });
 
+// creating event
+app.post('/create-event', (req, res) => {
+    const { title, description, photo, date, startTime, endTime, location, user_id } = req.body;
+
+    const createdAt = new Date();
+    console.log('Reached create event');
+
+    // Validate required fields
+    if (!title || !description || !date || !location || !user_id) {
+        return res.status(400).json({ message: 'Required fields missing!' });
+    }
+
+    // Updated query to include user_id
+    const query = `
+        INSERT INTO events 
+        (title, description, photo, date, startTime, endTime, location, created_at, user_id) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    // Execute the query with all required values
+    db.query(
+        query, 
+        [title, description, photo, date, startTime, endTime, location, createdAt, user_id], 
+        (err, result) => {
+            if (err) {
+                console.error('Error creating event: ', err);
+                return res.status(500).json({ message: 'Failed to create event' });
+            }
+            console.log('New event created successfully!');
+            return res.status(201).json({ message: 'Event created successfully' });
+        }
+    );
+});
+
 // Signup Route
 app.post('/signup', (req, res) => {
     const { username, email, password } = req.body;
