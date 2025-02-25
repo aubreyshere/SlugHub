@@ -14,5 +14,9 @@ router.get('/create-event', (req, res) => {
     res.json({ message: "create-event route accessed" });
 });
 
+router.get('/event', (req, res) => {
+    res.json({ message: "event route accessed" });
+});
+
 
 module.exports = router;

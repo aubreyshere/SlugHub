@@ -2,6 +2,7 @@ import React from 'react';
 import './Homepage.css';
 import reportWebVitals from './reportWebVitals';
 import SearchBar from './searchBar';
+import EventPreview from './EventPreview';
 
 const Homepage = () => {
     return (
@@ -9,6 +10,7 @@ const Homepage = () => {
                 <div>
                     <SearchBar />
                     <h1>Recommended</h1>
+                    <EventPreview />
                 </div>
         </div>
     );

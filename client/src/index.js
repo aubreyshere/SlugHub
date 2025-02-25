@@ -9,6 +9,7 @@ import SignIn from './SignIn';
 import Homepage from './Homepage'
 import CreateEvent from './CreateEvent'
 import CreateAccount from './CreateAccount'
+import EventPage from './EventPage';
 
 
 var loggedIn = true; // default for now
@@ -24,6 +25,7 @@ const pages = (
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/create-event" element={<CreateEvent />} />
             <Route path="/create-account" element={<CreateAccount />} />
+            <Route path="/event/:eventId" element={<EventPage />} />
         </Routes>
     </BrowserRouter>
 );

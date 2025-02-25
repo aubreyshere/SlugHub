@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const bcrypt = require('bcrypt');
 
+
 const app = express();
 
 app.use(express.json());
@@ -23,7 +24,7 @@ const db = mysql.createConnection({ // local database, only works on my computer
     password: '15644651!Ah',
     database: 'sluggyhub',
 });
-
+// testing backend
 app.get('/', (req, res) => {
     res.send('meow');
 });
@@ -35,19 +36,16 @@ app.post('/create-event', (req, res) => {
     const createdAt = new Date();
     console.log('Reached create event');
 
-    // Validate required fields
     if (!title || !description || !date || !location || !user_id) {
         return res.status(400).json({ message: 'Required fields missing!' });
     }
 
-    // Updated query to include user_id
     const query = `
         INSERT INTO events 
         (title, description, photo, date, startTime, endTime, location, created_at, user_id) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
-    // Execute the query with all required values
     db.query(
         query, 
         [title, description, photo, date, startTime, endTime, location, createdAt, user_id], 
@@ -62,6 +60,33 @@ app.post('/create-event', (req, res) => {
     );
 });
 
+// return event data
+app.get('/event/:eventId', (req, res) => {
+    let { eventId } = req.params;
+    eventId = parseInt(eventId, 20);  // Convert eventId to an integer
+
+    console.log('Received eventId:', eventId);  // Log eventId
+
+    const query = 'SELECT * FROM events WHERE id = ?';
+
+    db.query(query, [eventId], (err, result) => {
+        if (err) {
+            console.error('Error fetching event:', err);
+            return res.status(500).json({ message: 'Failed to fetch event' });
+        }
+
+        if (result.length === 0) {
+            console.log('Event not found with id:', eventId);
+            return res.status(404).json({ message: 'Event not found' });
+        }
+
+        console.log('Event found:', result[0]);
+        return res.json(result[0]);
+    });
+});
+
+
+
 // Signup Route
 app.post('/signup', (req, res) => {
     const { username, email, password } = req.body;
@@ -73,7 +98,6 @@ app.post('/signup', (req, res) => {
         return res.status(400).json({ message: 'All fields are required!' });
     }
 
-    // Example password strength check
     if (password.length < 8) {
         return res.status(400).json({ message: 'Password must be at least 8 characters long!' });
     }
@@ -95,7 +119,7 @@ app.post('/signup', (req, res) => {
         });
     });
 });
-
+//Signin route
 app.post('/users', (req, res) => {
     const { email, password } = req.body;
 

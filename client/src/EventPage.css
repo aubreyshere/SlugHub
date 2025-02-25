@@ -1,0 +1,42 @@
+html, body {
+    height: 100%;
+    margin: 0; 
+    padding: 0; 
+}
+
+.eventPage {
+    display: flex; 
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.eventBox {
+    background-color: aliceblue;
+    height: 90%;
+    width: 90%;    
+    display: flex;
+    flex-direction: row;
+    justify-content: center; 
+}
+
+.leftEventBox {
+    width: 60%;
+    height: 100%;
+    padding: 5%;
+    padding-right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rightEventBox {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5%;
+    padding-left: 0;
+}

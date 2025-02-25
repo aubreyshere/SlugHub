@@ -1,0 +1,34 @@
+import React from 'react';
+import './EventPreview.css';
+import { useNavigate } from 'react-router-dom';
+
+const EventPreview = ({ event }) => {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/event/${event?.id}`);
+    };
+
+    return (
+        <div className='previewContainer'>
+            <button className='eventAdvertisement' onClick={handleClick}>
+                <div className='imageHolder'>
+                    <img className='eventImage' src={event?.photo} alt={event?.title} />
+                </div>
+                <div className='eventInfo'>
+                    <div className='topInfo'>
+                        <h1 className='eventTitle'>{event?.title}</h1>
+                        <p className='eventDate'>{event?.date}</p>
+                    </div>
+                    <div className='bottomInfo'>
+                        <p className='eventDescription'>{event?.description}</p>
+                        <p className='eventLocation'>{event?.location}</p>
+                        <p className='moreInfo'>click for more info...</p>
+                    </div>
+                </div>
+            </button>
+        </div>
+    );
+};
+
+export default EventPreview;
