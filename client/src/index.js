@@ -12,7 +12,7 @@ import CreateAccount from './CreateAccount'
 import EventPage from './EventPage';
 
 
-var loggedIn = true; // default for now
+var loggedIn = false; // default for now
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const pages = (

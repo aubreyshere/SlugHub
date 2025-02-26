@@ -1,24 +1,77 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Homepage.css';
-import reportWebVitals from './reportWebVitals';
-import SearchBar from './searchBar';
+import SearchBar from './searchBar'; 
 import EventPreview from './EventPreview';
 
 const Homepage = () => {
-    return (
-        <div>
-                <div>
+    const [events, setEvents] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+    
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                const response = await fetch('http://localhost:4000/events');
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch events');
+                }
+                
+                const data = await response.json();
+                setEvents(data);
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchEvents();
+    }, []);
+
+    if (isLoading) {
+        return (
+            <div className="homepage">
+                <div className="header">
                     <SearchBar />
                     <h1>Recommended</h1>
-                    <EventPreview />
                 </div>
+                <div className="loading">Loading events...</div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="homepage">
+                <div className="header">
+                    <SearchBar />
+                    <h1>Recommended</h1>
+                </div>
+                <div className="error">
+                    <p>Error: {error}</p>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="homepage">
+            <div className="header">
+                <SearchBar />
+                <h1>Recommended</h1>
+            </div>
+            <div className="eventsContainer">
+                {events.length > 0 ? (
+                    events.map(event => (
+                        <EventPreview key={event.id} event={event} />
+                    ))
+                ) : (
+                    <div className="noEvents">No events available</div>
+                )}
+            </div>
         </div>
     );
 };
 
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
 export default Homepage;

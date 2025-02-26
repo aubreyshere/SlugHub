@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 const db = mysql.createConnection({ // local database, only works on my computer unless you set up your own and change info
     host: "localhost",
     user: "root",
-    password: '15644651!Ah',
+    password: '',
     database: 'sluggyhub',
 });
 // testing backend
@@ -63,9 +63,9 @@ app.post('/create-event', (req, res) => {
 // return event data
 app.get('/event/:eventId', (req, res) => {
     let { eventId } = req.params;
-    eventId = parseInt(eventId, 20);  // Convert eventId to an integer
+    eventId = parseInt(eventId, 20);  
 
-    console.log('Received eventId:', eventId);  // Log eventId
+    console.log('Received eventId:', eventId);  
 
     const query = 'SELECT * FROM events WHERE id = ?';
 
@@ -85,7 +85,25 @@ app.get('/event/:eventId', (req, res) => {
     });
 });
 
+// gets all events
+app.get('/events', (req, res) => {
+    const query = 'SELECT * FROM events';  
 
+    db.query(query, (err, result) => {
+        if (err) {
+            console.error('Error fetching events:', err);
+            return res.status(500).json({ message: 'Failed to fetch events' });
+        }
+
+        if (result.length === 0) {
+            console.log('No events found');
+            return res.status(404).json({ message: 'No events available' });
+        }
+
+        console.log('Events found:', result);
+        return res.json(result);  
+    });
+});
 
 // Signup Route
 app.post('/signup', (req, res) => {
@@ -129,8 +147,8 @@ app.post('/users', (req, res) => {
         return res.status(400).json({ message: "Email and password are required." });
     }
 
-    const cleanedEmail = email.trim().toLowerCase();  // Clean the email and make it lowercase
-    const cleanedPassword = password.trim();  // Clean the password
+    const cleanedEmail = email.trim().toLowerCase();  
+    const cleanedPassword = password.trim();  
 
     const sql = 'SELECT * FROM users WHERE email = ?';
     db.query(sql, [cleanedEmail], (err, data) => {
@@ -141,7 +159,6 @@ app.post('/users', (req, res) => {
         if (data.length > 0) {
             const user = data[0];
 
-            // Compare hashed password
             bcrypt.compare(cleanedPassword, user.password, (err, result) => {
                 if (err) {
                     console.error('bcrypt error:', err);

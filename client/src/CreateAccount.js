@@ -9,7 +9,7 @@ const CreateAccount = () => {
     username: '',
     email: '',
     password: '',
-    confirmPassword: '',  // Added confirmPassword
+    confirmPassword: '', 
   });
 
   const handleChange = (event) => {
@@ -18,18 +18,17 @@ const CreateAccount = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('Submitting values:', values);  // Debugging log
+    console.log('Submitting values:', values);  // Debug
 
     if (values.password !== values.confirmPassword) {
       console.error('Passwords do not match!');
-      return;  // Prevent submission if passwords do not match
+      return;  
     }
 
     axios
       .post('http://localhost:4000/signup', values)
       .then((res) => {
         console.log('Registered successfully');
-        // Optionally redirect to login page after successful registration
         navigate('/sign-in');
       })
       .catch((err) => {

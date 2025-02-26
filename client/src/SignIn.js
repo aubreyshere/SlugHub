@@ -17,6 +17,7 @@ const SignIn = () => {
         axios.post('http://localhost:4000/users', { email, password })
             .then(res => {
                 console.log('Response:', res);
+                navigate('/');
             })
             .catch(err => {
                 console.error('Error:', err);
