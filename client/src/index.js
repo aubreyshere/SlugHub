@@ -1,31 +1,35 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Navbar from './Navbar';
-import SignIn from './SignIn'; 
-import Homepage from './Homepage'
-import CreateEvent from './CreateEvent'
-import CreateAccount from './CreateAccount'
+import SignIn from './SignIn';
+import Homepage from './Homepage';
+import CreateEvent from './CreateEvent';
+import CreateAccount from './CreateAccount';
 import EventPage from './EventPage';
+import ProtectedRoute from './ProtectedRoute'; 
 
+const isLoggedIn = localStorage.getItem('token') !== null;
 
-var loggedIn = false; // default for now
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const pages = (
     <BrowserRouter>
-    <div>
-        <Navbar loggedIn = {loggedIn}/> {/*outside of routes so its shown on all pages */}
-    </div>
-        <Routes> {/*the routes show the file that will be loaded on each page*/}
+        <div>
+            <Navbar loggedIn={isLoggedIn} /> 
+        </div>
+        <Routes>
             <Route path="/" element={<Homepage />} />
             <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/create-event" element={<CreateEvent />} />
             <Route path="/create-account" element={<CreateAccount />} />
             <Route path="/event/:eventId" element={<EventPage />} />
+
+            {/* Protected Routes */}
+            <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
+                <Route path="/create-event" element={<CreateEvent />} />
+            </Route>
         </Routes>
     </BrowserRouter>
 );

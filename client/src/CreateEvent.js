@@ -12,8 +12,7 @@ const CreateEvent = () => {
     date: '',
     startTime: '',
     endTime: '',
-    location: '',
-    user_id: '',
+    location: '', // Add location to the state
   });
 
   const handleChange = (event) => {
@@ -22,29 +21,39 @@ const CreateEvent = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('Submitting values:', values); // Debugging log
+    console.log('Submitting values:', values);
 
-    const user_id = localStorage.getItem('user_id'); // Get user_id from localStorage
+    const user_id = localStorage.getItem('userId');
     if (!user_id) {
       console.error('User ID is missing');
+      alert('You must be signed in to create an event.');
       return;
     }
 
     if (!values.title || !values.description || !values.date || !values.location) {
       console.error('Required fields are missing');
+      alert('Please fill in all required fields.');
       return;
     }
 
     const requestBody = { ...values, user_id };
+    console.log('Request Body:', requestBody);
+
+    const token = localStorage.getItem('token');
 
     axios
-      .post('http://localhost:4000/create-event', requestBody)
+      .post('http://localhost:4000/create-event', requestBody, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         console.log('Event created successfully');
         navigate('/');
       })
       .catch((err) => {
         console.error('Error:', err.response?.data || err.message);
+        alert('Failed to create event. Please try again.');
       });
   };
 
@@ -53,13 +62,12 @@ const CreateEvent = () => {
       <div className="createBox">
         <form className="infoFill" onSubmit={handleSubmit}>
           <div className="leftBox">
-            {/* File input for image upload (hidden) */}
             <input
               id="fileInput"
               type="file"
               accept="image/*"
               name="photo"
-              style={{ display: 'none' }} // Hide the file input
+              style={{ display: 'none' }}
               onChange={(e) => {
                 const file = e.target.files[0];
                 if (file) {
@@ -71,14 +79,9 @@ const CreateEvent = () => {
                 }
               }}
             />
-            {/* Custom upload button or image preview */}
             <label htmlFor="fileInput" className="uploadButton">
               {values.photo ? (
-                <img
-                  src={values.photo}
-                  alt="Preview"
-                  className="uploadedImage"
-                />
+                <img src={values.photo} alt="Preview" className="uploadedImage" />
               ) : (
                 'Upload Image'
               )}
@@ -132,6 +135,15 @@ const CreateEvent = () => {
                   onChange={handleChange}
                 />
               </div>
+              {/* Location Input */}
+              <input
+                className="locationInput"
+                type="text"
+                placeholder="Event location..."
+                name="location"
+                value={values.location}
+                onChange={handleChange}
+              />
             </div>
             <button type="submit" className="postEvent">
               Post Event!

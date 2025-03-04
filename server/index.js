@@ -2,28 +2,52 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-const { Timestamp } = require('firebase-admin/firestore');  
-const { db } = require('./firebaseAdminSetup');  
+const { Timestamp } = require('firebase-admin/firestore');
+const { db } = require('./firebaseAdminSetup');
 const app = express();
+const jwt = require('jsonwebtoken');
+
+const SECRET_KEY = 'your_jwt_secret';
+
+app.use(cors({
+  origin: 'http://localhost:3000', 
+  credentials: true, 
+}));
 
 app.use(express.json());
-app.use(cors());
-app.use(bodyParser.json());
 
-app.use(express.json()); 
-app.use(cors({ origin: '*', credentials: true })); 
-app.use(bodyParser.json());
+app.use(express.json({ limit: '10mb' })); 
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 app.get('/', (req, res) => {
     res.send('meow');
 });
 
+// tracks sign in
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+        return res.status(401).json({ message: 'Access denied. No token provided.' });
+    }
+
+    jwt.verify(token, SECRET_KEY, (err, user) => {
+        if (err) {
+            return res.status(403).json({ message: 'Invalid or expired token.' });
+        }
+        req.user = user; 
+        next();
+    });
+};
+
 // Create Event
-app.post('/create-event', async (req, res) => {
-    const { title, description, photo, date, startTime, endTime, location, user_id } = req.body;
+app.post('/create-event', authenticateToken, async (req, res) => {
+    const { title, description, photo, date, startTime, endTime, location } = req.body;
+    const user_id = req.user.userId; // Extract user_id from the token
 
     // Validate required fields
-    if (!title || !description || !date || !location || !user_id) {
+    if (!title || !description || !date || !location) {
         return res.status(400).json({ message: 'Required fields missing!' });
     }
 
@@ -31,12 +55,12 @@ app.post('/create-event', async (req, res) => {
         const eventData = {
             title,
             description,
-            photo: photo || null, 
+            photo: photo || null,
             date,
-            startTime: startTime || null, 
-            endTime: endTime || null, 
+            startTime: startTime || null,
+            endTime: endTime || null,
             location,
-            created_at: Timestamp.fromDate(new Date()), 
+            created_at: Timestamp.fromDate(new Date()),
             user_id,
         };
 
@@ -49,45 +73,90 @@ app.post('/create-event', async (req, res) => {
     }
 });
 
+// get user by id
+app.get('/user/:userId', async (req, res) => {
+    const userId = req.params.userId;
+    console.log('Fetching user with ID:', userId); 
+
+    try {
+        const userDoc = await db.collection('users').doc(userId).get();
+
+        if (!userDoc.exists) {
+            console.log('User not found for ID:', userId); 
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const userData = userDoc.data();
+        console.log('User data:', userData); 
+        return res.json({ id: userDoc.id, ...userData });
+    } catch (err) {
+        console.error('Error fetching user:', err);
+        return res.status(500).json({ message: 'Failed to fetch user' });
+    }
+});
+
 // Get Event by ID
 app.get('/event/:eventId', async (req, res) => {
     const eventId = req.params.eventId;
+    console.log('Received eventId:', eventId); // Log the eventId
 
     try {
         const eventDoc = await db.collection('events').doc(eventId).get();
 
         if (!eventDoc.exists) {
+            console.log('Event not found for eventId:', eventId); // Log if event not found
             return res.status(404).json({ message: 'Event not found' });
         }
 
         const eventData = eventDoc.data();
-        return res.json({ id: eventDoc.id, ...eventData }); // Include document ID in response
+        console.log('Event data:', eventData); // Log the event data
+        return res.json({ id: eventDoc.id, ...eventData });
     } catch (err) {
         console.error('Error fetching event:', err);
         return res.status(500).json({ message: 'Failed to fetch event' });
     }
 });
 
-// Get All Events
-app.get('/events', async (req, res) => {
-    try {
-        const eventsSnapshot = await db.collection('events').get();
+// sign in
+app.post('/signin', [
+    body('email').isEmail().withMessage('Invalid email'),
+    body('password').notEmpty().withMessage('Password is required'),
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
 
-        if (eventsSnapshot.empty) {
-            return res.status(404).json({ message: 'No events available' });
+    const { email, password } = req.body;
+
+    try {
+        const usersSnapshot = await db.collection('users').where('email', '==', email).get();
+
+        if (usersSnapshot.empty) {
+            return res.status(401).json({ message: 'Email not found.' });
         }
 
-        const events = [];
-        eventsSnapshot.forEach((doc) => {
-            events.push({ id: doc.id, ...doc.data() }); // Include document ID in response
-        });
+        const userDoc = usersSnapshot.docs[0];
+        const userData = userDoc.data();
 
-        return res.json(events);
+        const isPasswordValid = await bcrypt.compare(password, userData.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ message: 'Incorrect password.' });
+        }
+
+        const token = jwt.sign({ userId: userDoc.id }, SECRET_KEY, { expiresIn: '1h' });
+
+        return res.json({
+            message: 'Login successful.',
+            token,
+            userId: userDoc.id,
+        });
     } catch (err) {
-        console.error('Error fetching events:', err);
-        return res.status(500).json({ message: 'Failed to fetch events' });
+        console.error('Error during signin:', err);
+        return res.status(500).json({ message: 'Internal server error.' });
     }
 });
+
 
 // Signup Route
 app.post('/signup', async (req, res) => {
@@ -126,36 +195,33 @@ app.post('/signup', async (req, res) => {
     }
 });
 
-// Signin Route
-app.post('/signin', async (req, res) => {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-        return res.status(400).json({ message: 'Email and password are required.' });
-    }
+// return all events (needs more testing)
+app.get('/events', async (req, res) => {
+    const limit = 12; 
+    const page = parseInt(req.query.page) || 1; 
+    const offset = (page - 1) * limit;
 
     try {
-        const usersSnapshot = await db.collection('users').where('email', '==', email).get();
+        const eventsSnapshot = await db.collection('events')
+            .orderBy('date') 
+            .limit(limit)
+            .offset(offset)
+            .get();
 
-        if (usersSnapshot.empty) {
-            return res.status(401).json({ message: 'Invalid credentials.' });
-        }
+        const events = [];
+        eventsSnapshot.forEach((doc) => {
+            events.push({
+                id: doc.id,
+                ...doc.data(),
+            });
+        });
 
-        const userDoc = usersSnapshot.docs[0];
-        const userData = userDoc.data();
-
-        const isPasswordValid = await bcrypt.compare(password, userData.password);
-        if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Invalid credentials.' });
-        }
-
-        return res.json({ message: 'Login successful.', userId: userDoc.id });
+        return res.status(200).json(events);
     } catch (err) {
-        console.error('Error during signin:', err);
+        console.error('Error fetching events:', err);
         return res.status(500).json({ message: 'Internal server error.' });
     }
 });
-
 const port = 4000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

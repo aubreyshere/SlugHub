@@ -5,14 +5,40 @@ import './EventPage.css';
 const EventPage = () => {
     const { eventId } = useParams(); 
     const [event, setEvent] = useState(null);
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
+    const fetchUserById = async (userId) => {
+        try {
+            const response = await fetch(`http://localhost:4000/user/${userId}`);
+            
+            if (!response.ok) {
+                if (response.status === 404) {
+                    throw new Error('User not found');
+                } else {
+                    throw new Error(`Error: ${response.status} - ${response.statusText}`);
+                }
+            }
+            
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error fetching user:', error);
+            throw error; 
+        }
+    };
+    
     const fetchEventById = async (eventId) => {
         try {
             const response = await fetch(`http://localhost:4000/event/${eventId}`);
             
             if (!response.ok) {
-                throw new Error(`Error: ${response.status} - ${response.statusText}`);
+                if (response.status === 404) {
+                    throw new Error('Event not found');
+                } else {
+                    throw new Error(`Error: ${response.status} - ${response.statusText}`);
+                }
             }
             
             const data = await response.json();
@@ -24,27 +50,41 @@ const EventPage = () => {
     };
     
     useEffect(() => {
-        const numericEventId = parseInt(eventId, 10);
-        
-        if (isNaN(numericEventId)) {
-            console.error('Invalid event ID');
+        if (!eventId) {
+            setError('Invalid event ID');
             setLoading(false);
             return;
         }
 
-        fetchEventById(numericEventId)
-            .then(data => {
-                setEvent(data);
-                setLoading(false);
+        fetchEventById(eventId)
+            .then(async (eventData) => {
+                setEvent(eventData);
+
+                // Fetch user data if user_id exists in the event data
+                if (eventData.user_id) {
+                    try {
+                        const userData = await fetchUserById(eventData.user_id);
+                        setUser(userData);
+                    } catch (error) {
+                        console.error('Failed to fetch user:', error);
+                        setUser(null); // Set user to null if not found
+                    }
+                }
             })
             .catch(error => {
-                console.error('Error fetching event:', error);
+                setError(error.message || 'Failed to fetch event');
+            })
+            .finally(() => {
                 setLoading(false);
             });
     }, [eventId]);
 
     if (loading) {
         return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
     }
 
     if (!event) {
@@ -55,16 +95,19 @@ const EventPage = () => {
         <div className="eventPage">
             <div className="eventBox">
                 <div className="leftEventBox">
-                    <img className='eventPageImage' src={event.photo} alt={event.title} />
-                    <h1 className='eventTitle'>{event.title}</h1>
-                    <p className='eventDescription'>{event.description}</p>
+                    {event.photo && (
+                        <img className='eventPageImage' src={event.photo} alt={event.title || 'Event'} />
+                    )}
+                    <h1 className='eventTitle'>{event.title || 'Untitled Event'}</h1>
+                    <p className='eventDescription'>{event.description || 'No description available.'}</p>
                 </div>
                 <div className="rightEventBox">
                     <div className='userProfile'>
-                        <p>Hosted by: User {event.user_id}</p>
+                        <p>Hosted by: {user ? user.username : 'User not found'}</p>
                     </div>
-                    <p className='eventDay'>Date: {event.date}</p>
-                    <p className='eventTime'>Time: {event.startTime} - {event.endTime}</p>
+                    <p className='eventDay'>Date: {event.date || 'Not specified'}</p>
+                    <p className='eventTime'>Time: {event.startTime || 'Not specified'} - {event.endTime || 'Not specified'}</p>
+                    <p className='eventLocation'>Location: {event.location || 'Not specified'}</p>
                 </div>
             </div>
         </div>

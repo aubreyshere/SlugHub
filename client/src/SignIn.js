@@ -13,14 +13,20 @@ const SignIn = () => {
     function handleSubmit(event) {
         event.preventDefault();
         console.log('Submitting email and password:', { email, password }); // Debugging log
-
-        axios.post('http://localhost:4000/users', { email, password })
+    
+        axios.post('http://localhost:4000/signin', { email, password })
             .then(res => {
                 console.log('Response:', res);
-                navigate('/');
+                const { token, userId } = res.data; 
+    
+                localStorage.setItem('token', token);
+                localStorage.setItem('userId', userId);
+    
+                navigate('/'); 
             })
             .catch(err => {
                 console.error('Error:', err);
+                alert('Sign-in failed. Please check your credentials.'); 
             });
     }
 
