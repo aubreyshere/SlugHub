@@ -1,0 +1,8 @@
+# Ignore Firebase Admin SDK key
+config/slughubbing-firebase-adminsdk-fbsvc-1528ce31d6.json
+
+# Ignore node_modules directory
+node_modules/
+
+# Ignore .env file
+.env
