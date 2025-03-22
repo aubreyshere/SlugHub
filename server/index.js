@@ -6,6 +6,8 @@ const { Timestamp } = require('firebase-admin/firestore');
 const { db } = require('./firebaseAdminSetup');
 const app = express();
 const jwt = require('jsonwebtoken');
+const { Firestore } = require('firebase-admin/firestore');
+const { body, validationResult } = require('express-validator');
 
 const SECRET_KEY = 'your_jwt_secret';
 
@@ -46,7 +48,6 @@ app.post('/create-event', authenticateToken, async (req, res) => {
     const { title, description, photo, date, startTime, endTime, location } = req.body;
     const user_id = req.user.userId; // Extract user_id from the token
 
-    // Validate required fields
     if (!title || !description || !date || !location) {
         return res.status(400).json({ message: 'Required fields missing!' });
     }
@@ -118,51 +119,54 @@ app.get('/event/:eventId', async (req, res) => {
 });
 
 // sign in
-app.post('/signin', [
-    body('email').isEmail().withMessage('Invalid email'),
-    body('password').notEmpty().withMessage('Password is required'),
-], async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
+app.post(
+    '/signin',
+    [
+      body('email').isEmail().withMessage('Invalid email'),
+      body('password').notEmpty().withMessage('Password is required'),
+    ],
+    async (req, res) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
-    }
-
-    const { email, password } = req.body;
-
-    try {
+      }
+  
+      const { email, password } = req.body;
+  
+      try {
         const usersSnapshot = await db.collection('users').where('email', '==', email).get();
-
+  
         if (usersSnapshot.empty) {
-            return res.status(401).json({ message: 'Email not found.' });
+          return res.status(401).json({ message: 'Email not found.' });
         }
-
+  
         const userDoc = usersSnapshot.docs[0];
         const userData = userDoc.data();
-
+  
         const isPasswordValid = await bcrypt.compare(password, userData.password);
         if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Incorrect password.' });
+          return res.status(401).json({ message: 'Incorrect password.' });
         }
-
+  
         const token = jwt.sign({ userId: userDoc.id }, SECRET_KEY, { expiresIn: '1h' });
-
+  
         return res.json({
-            message: 'Login successful.',
-            token,
-            userId: userDoc.id,
+          message: 'Login successful.',
+          token,
+          userId: userDoc.id,
         });
-    } catch (err) {
+      } catch (err) {
         console.error('Error during signin:', err);
         return res.status(500).json({ message: 'Internal server error.' });
+      }
     }
-});
+  );
 
 
 // Signup Route
 app.post('/signup', async (req, res) => {
     const { username, email, password } = req.body;
 
-    // Validate required fields
     if (!username || !email || !password) {
         return res.status(400).json({ message: 'All fields are required!' });
     }
@@ -222,6 +226,82 @@ app.get('/events', async (req, res) => {
         return res.status(500).json({ message: 'Internal server error.' });
     }
 });
+
+// search feature
+app.get('/search', async (req, res) => {
+    const { q } = req.query; // Get the search query from the URL
+  
+    if (!q) {
+      return res.status(400).json({ message: 'Search query is required' });
+    }
+  
+    try {
+      const eventsRef = db.collection('events'); 
+      const snapshot = await eventsRef
+        .where('title', '>=', q) 
+        .where('title', '<=', q + '\uf8ff') 
+        .get();
+  
+      if (snapshot.empty) {
+        return res.status(404).json({ message: 'No events found' });
+      }
+  
+      const events = [];
+      snapshot.forEach((doc) => {
+        events.push({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+  
+      return res.status(200).json(events);
+    } catch (err) {
+      console.error('Error searching events:', err);
+      return res.status(500).json({ message: 'Failed to search events' });
+    }
+  });
+
+  //get user info
+  app.get('/api/user', authenticateToken, async (req, res) => {
+    try {
+      const userId = req.user.userId;
+      const userDoc = await db.collection('users').doc(userId).get();
+  
+      if (!userDoc.exists) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      const userData = userDoc.data();
+      res.json({ username: userData.username, email: userData.email });
+    } catch (err) {
+      console.error('Error fetching user data:', err);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
+  app.get('/api/user/events', authenticateToken, async (req, res) => {
+    try {
+      const userId = req.user.userId; 
+  
+      const eventsSnapshot = await db.collection('events')
+        .where('user_id', '==', userId)
+        .get();
+  
+      const events = [];
+      eventsSnapshot.forEach((doc) => {
+        events.push({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+  
+      res.json(events); 
+    } catch (err) {
+      console.error('Error fetching user events:', err);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
 const port = 4000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

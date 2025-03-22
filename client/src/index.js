@@ -10,6 +10,8 @@ import CreateEvent from './CreateEvent';
 import CreateAccount from './CreateAccount';
 import EventPage from './EventPage';
 import ProtectedRoute from './ProtectedRoute'; 
+import SearchPage from './SearchPage';
+import Profile from './Profile';
 
 const isLoggedIn = localStorage.getItem('token') !== null;
 
@@ -25,10 +27,11 @@ const pages = (
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/create-account" element={<CreateAccount />} />
             <Route path="/event/:eventId" element={<EventPage />} />
-
+            <Route path="/search" element={<SearchPage />} />
             {/* Protected Routes */}
             <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
                 <Route path="/create-event" element={<CreateEvent />} />
+                <Route path="/profile" element={<Profile />} />
             </Route>
         </Routes>
     </BrowserRouter>

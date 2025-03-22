@@ -1,5 +1,5 @@
 const admin = require('firebase-admin');
-const serviceAccount = require('../config/slughubbing-firebase-adminsdk-fbsvc-1528ce31d6.json');
+const serviceAccount = require('../config/slughubbing-firebase-adminsdk-fbsvc-effae29462.json');
 
 // Initialize Firebase Admin with the service account credentials
 admin.initializeApp({
