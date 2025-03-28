@@ -1,4 +1,11 @@
 .eventsContainer {
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap; /* Wrap to next row when hitting the edge */
+    gap: 60px; /* Space between event cards */
+    justify-content: flex-start; /* Align event cards to the left */
+    padding: 30px;
+}
+
+.header h1 {
+    margin-left: 30px; /* Pushes the text to the right by 20px */
 }

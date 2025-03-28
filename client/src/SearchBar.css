@@ -29,10 +29,13 @@
 }
 .search-input:focus {
     outline: none;
-  }
+}
 .search-icon {
     width: 20px;
     height: auto; 
     background-color: transparent;
-  }
-  
+}
+
+.searchBox h1 {
+    margin-right: 30px;
+}
