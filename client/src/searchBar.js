@@ -14,21 +14,23 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="searchBox">
-      <h1>SlugHub</h1>
-      <form className="search-form" onSubmit={handleSearchSubmit}>
-        <input
-          type="text"
-          className="search-input"
-          placeholder="Search events..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button type="submit" className="search-button">
-          <img className="search-icon" src="/images/search-icon-png-21.png" alt="searchIcon" />
-        </button>
-      </form>
-    </div>
+      <div className="searchBox">
+        <div className='searchContainer'>
+        <h1>SlugHub</h1>
+        <form className="search-form" onSubmit={handleSearchSubmit}>
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Search events..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button type="submit" className="search-button">
+            <img className="search-icon" src="/images/search-icon-png-21.png" alt="searchIcon" />
+          </button>
+        </form>
+        </div>
+      </div>
   );
 };
 

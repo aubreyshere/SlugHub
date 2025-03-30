@@ -1,11 +1,50 @@
 .eventsContainer {
     display: flex;
-    flex-wrap: wrap; /* Wrap to next row when hitting the edge */
-    gap: 60px; /* Space between event cards */
-    justify-content: flex-start; /* Align event cards to the left */
+    flex-wrap: wrap; 
+    gap: 60px; 
+    justify-content: flex-start; 
     padding: 30px;
 }
 
 .header h1 {
-    margin-left: 30px; /* Pushes the text to the right by 20px */
+    margin-left: 30px; 
 }
+
+.wavy-header-container {
+    position: relative;
+    margin-top: -30px; 
+    z-index: 1;
+  }
+  
+  .wave-overlap-top {
+    position: absolute;
+    top: -30px; 
+    left: 0;
+    width: 100%;
+    height: 40px;
+  }
+  
+
+  .wavy-content {
+    background-color: #F0C419 ;
+    padding: 30px 0 40px;
+    color: white;
+    text-align: left;
+    padding-left: 30px;
+  }
+
+  .wavy-content h1 {
+    margin: 0;
+    font-size: 2rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    position: relative;
+  }
+  
+  /* Bottom wave */
+  .wave-bottom {
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    width: 100%;
+    height: 40px;
+  }

@@ -1,40 +1,83 @@
-html, body {
+.navBarContainer {
+    position: relative;
+    width: 100%;
+  }
+  
+  .nav-wave {
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 999; 
+    pointer-events: none; 
+  }
+  
+  .nav-wave path:first-child {
+    filter: blur(4px);
+    opacity: 0.2;
+  }
+  
+  .main-content {
+    position: relative;
+    margin-top: 60px; 
+    z-index: 1;
+  }
+  
+  html, body {
     margin: 0;
     padding: 0;
     overflow: visible;
-}
-
-.navbar {
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
     background-color: #003566;
     position: sticky;
     top: 0;
     width: 100%;
     text-align: right;
     padding: 0;
-    margin: 0; 
-    height: 75px; 
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Larger shadow */
-    z-index: 9999; /* Ensure it's on top */
-}
-
-.nav-links {
+    margin: 0;
+    height: 75px;
+    z-index: 1000; 
+  }
+  
+  .logoImage {
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+  }
+  .nav-links {
     list-style-type: none;
     padding: 0;
-    margin: 0; 
-}
-
-.buttonNav {
+    margin: 0;
+    display: flex; 
+  }
+  
+  .buttonNav {
     background-color: #003566;
     height: 75px;
-    margin: 0; 
-    padding: 0; 
-    width: 100px;
+    width: 75px;
+    margin: 0;
+    padding: 0 20px; 
+    width: auto; 
     cursor: pointer;
     color: white;
     border: none;
-    font-size:12pt;
-}
-
-.nav-links .buttonNav:hover {
+    font-size: 12pt;
+    transition: all 0.3s ease;
+  }
+  
+  .nav-links .buttonNav:hover {
     color: #ddd;
-}
+  }
+  
+  .logoNav {
+    color: white;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    font-size: 1.5rem;
+  }
