@@ -7,7 +7,7 @@
 }
 
 .eventAdvertisement {
-    width: 300px;
+    width: 315px;
     height: 250px;
     padding: 0;
     border: 0;
@@ -25,7 +25,7 @@
 }
 
 .imageHolder {
-    width: 300px;
+    width: 315px;
     height: 125px;
     background-color: grey;
     border-top-left-radius: 10px; 
@@ -34,8 +34,8 @@
 }
 
 .eventImage {
-    width:300px;
-    height:100px;
+    width:315px;
+    height:125px;
 }
 
 .topInfo {
@@ -55,8 +55,8 @@
 }
 
 .eventDate {
-    width:20%;
     margin: 0;
+    text-align: right; /* Aligns the text to the right */
 }
 
 .eventInfo {
