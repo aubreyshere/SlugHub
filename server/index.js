@@ -45,34 +45,55 @@ const authenticateToken = (req, res, next) => {
 
 // Create Event
 app.post('/create-event', authenticateToken, async (req, res) => {
-    const { title, description, photo, date, startTime, endTime, location } = req.body;
-    const user_id = req.user.userId; // Extract user_id from the token
+  const { title, description, photo, date, startTime, endTime, location } = req.body;
+  const user_id = req.user.userId; 
 
-    if (!title || !description || !date || !location) {
-        return res.status(400).json({ message: 'Required fields missing!' });
-    }
+  const MAX_TITLE_LENGTH = 50;
+  const MAX_DESCRIPTION_LENGTH = 500;
+  const MAX_LOCATION_LENGTH = 100;
 
-    try {
-        const eventData = {
-            title,
-            description,
-            photo: photo || null,
-            date,
-            startTime: startTime || null,
-            endTime: endTime || null,
-            location,
-            created_at: Timestamp.fromDate(new Date()),
-            user_id,
-        };
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; 
 
-        const docRef = await db.collection('events').add(eventData);
-        console.log('New event created successfully with ID:', docRef.id);
-        return res.status(201).json({ message: 'Event created successfully', eventId: docRef.id });
-    } catch (err) {
-        console.error('Error creating event:', err);
-        return res.status(500).json({ message: 'Failed to create event' });
-    }
+  if (!title || !description || !date || !location) {
+      return res.status(400).json({ message: 'Required fields missing!' });
+  }
+
+  if (title.length > MAX_TITLE_LENGTH) {
+      return res.status(400).json({ message: `Title exceeds ${MAX_TITLE_LENGTH} characters.` });
+  }
+  if (description.length > MAX_DESCRIPTION_LENGTH) {
+      return res.status(400).json({ message: `Description exceeds ${MAX_DESCRIPTION_LENGTH} characters.` });
+  }
+  if (location.length > MAX_LOCATION_LENGTH) {
+      return res.status(400).json({ message: `Location exceeds ${MAX_LOCATION_LENGTH} characters.` });
+  }
+
+  if (req.file && req.file.size > MAX_FILE_SIZE) {
+      return res.status(400).json({ message: `File size exceeds the limit of 5MB.` });
+  }
+
+  try {
+      const eventData = {
+          title,
+          description,
+          photo: photo || null,
+          date,
+          startTime: startTime || null,
+          endTime: endTime || null,
+          location,
+          created_at: Timestamp.fromDate(new Date()),
+          user_id,
+      };
+
+      const docRef = await db.collection('events').add(eventData);
+      console.log('New event created successfully with ID:', docRef.id);
+      return res.status(201).json({ message: 'Event created successfully', eventId: docRef.id });
+  } catch (err) {
+      console.error('Error creating event:', err);
+      return res.status(500).json({ message: 'Failed to create event' });
+  }
 });
+
 
 // get user by id
 app.get('/user/:userId', async (req, res) => {
@@ -199,17 +220,16 @@ app.post('/signup', async (req, res) => {
     }
 });
 
-// Get all events with pagination
+// recommended page
 app.get('/events', async (req, res) => {
   const limit = parseInt(req.query.limit) || 12;
-  const lastDate = req.query.lastDate; // For cursor-based pagination
+  const lastDate = req.query.lastDate; 
 
   try {
       let query = db.collection('events')
           .orderBy('date')
           .limit(limit);
 
-      // If there's a lastDate parameter, use it for pagination
       if (lastDate) {
           const lastDateSnapshot = await db.collection('events').doc(lastDate).get();
           query = query.startAfter(lastDateSnapshot);
@@ -222,7 +242,6 @@ app.get('/events', async (req, res) => {
           events.push({
               id: doc.id,
               ...doc.data(),
-              // Convert Firestore Timestamp to JavaScript Date if needed
               date: doc.data().date.toDate ? doc.data().date.toDate() : doc.data().date
           });
       });
@@ -232,14 +251,14 @@ app.get('/events', async (req, res) => {
       console.error('Error fetching events:', err);
       return res.status(500).json({ 
           message: 'Internal server error.',
-          error: err.message // Include the actual error message
+          error: err.message 
       });
   }
 });
 
 // search feature
 app.get('/search', async (req, res) => {
-    const { q } = req.query; // Get the search query from the URL
+    const { q } = req.query; 
   
     if (!q) {
       return res.status(400).json({ message: 'Search query is required' });

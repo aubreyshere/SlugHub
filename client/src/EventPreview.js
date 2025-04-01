@@ -10,7 +10,11 @@ const EventPreview = ({ event }) => {
 
     const defaultImage = "images/location_on.jpg";
 
-    const formattedDate = event?.date ? new Date(event?.date).toLocaleDateString() : "Date not available";
+    const formattedDate = event?.date 
+    ? new Date(event.date).toISOString().split('T')[0] 
+    : "Date not available";
+
+
 
     return (
         <div className='previewContainer'>
@@ -28,7 +32,6 @@ const EventPreview = ({ event }) => {
                         <p className='eventDate'>{formattedDate}</p>
                     </div>
                     <div className='bottomInfo'>
-                        <p className='eventDescription'>{event?.description || "No description available"}</p>
                         <p className='eventLocation'>{event?.location || "Location not available"}</p>
                         <p className='moreInfo'>click for more info...</p>
                     </div>

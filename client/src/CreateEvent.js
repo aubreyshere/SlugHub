@@ -134,8 +134,7 @@ const CreateEvent = () => {
                   value={values.endTime}
                   onChange={handleChange}
                 />
-              </div>
-              {/* Location Input */}
+            </div>
               <input
                 className="locationInput"
                 type="text"
