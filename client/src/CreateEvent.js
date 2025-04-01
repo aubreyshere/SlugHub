@@ -12,7 +12,7 @@ const CreateEvent = () => {
     date: '',
     startTime: '',
     endTime: '',
-    location: '', // Add location to the state
+    location: '', 
   });
 
   const handleChange = (event) => {
