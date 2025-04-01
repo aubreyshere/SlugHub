@@ -29,12 +29,61 @@ const Homepage = () => {
         fetchEvents();
     }, []);
 
+    const RecommendedHeader = () => (
+        <div className="wavy-header-container">
+        {/* wavyyyyy */}
+        <svg style={{ position: 'absolute', height: 0 }}>
+            <defs>
+            <filter id="dropShadowAbove" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+                <feOffset dy="-3" result="offsetblur"/>
+                <feFlood floodColor="rgba(0,0,0,0.3)"/>
+                <feComposite in2="offsetblur" operator="in"/>
+                <feMerge>
+                <feMergeNode/>
+                <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+            <filter id="dropShadowBelow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+                <feOffset dy="3" result="offsetblur"/>
+                <feFlood floodColor="rgba(0,0,0,0.3)"/>
+                <feComposite in2="offsetblur" operator="in"/>
+                <feMerge>
+                <feMergeNode/>
+                <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+            </defs>
+        </svg>
+        
+        <svg className="wave-overlap-top" viewBox="0 0 1200 40" preserveAspectRatio="none">
+            <path 
+            d="M0,40 C150,0 300,40 450,20 C600,0 750,20 900,30 C1050,40 1200,10 1200,10 L1200,40 L0,40 Z" 
+            fill="#F0C419"
+            filter="url(#dropShadowAbove)"
+            />
+        </svg>
+        
+        <div className="wavy-content">
+            <h1 className='recommendedText'>Recommended</h1>
+        </div>
+        
+        <svg className="wave-bottom" viewBox="0 0 1200 40" preserveAspectRatio="none">
+            <path 
+            d="M0,10 C200,30 300,-5 500,25 C700,5 800,35 1000,15 C1100,5 1150,25 1200,15 L1200,0 L0,0 Z"  
+            fill="#F0C419"
+            filter="url(#dropShadowBelow)"
+            />
+        </svg>
+        </div>
+      );
     if (isLoading) {
         return (
             <div className="homepage">
                 <div className="header">
                     <SearchBar />
-                    <h1>Recommended</h1>
+                    <RecommendedHeader />
                 </div>
                 <div className="loading">Loading events...</div>
             </div>
@@ -46,7 +95,7 @@ const Homepage = () => {
             <div className="homepage">
                 <div className="header">
                     <SearchBar />
-                    <h1>Recommended</h1>
+                    <RecommendedHeader />
                 </div>
                 <div className="error">
                     <p>Error: {error}</p>
@@ -59,7 +108,7 @@ const Homepage = () => {
         <div className="homepage">
             <div className="header">
                 <SearchBar />
-                <h1>Recommended</h1>
+                <RecommendedHeader />
             </div>
             <div className="eventsContainer">
                 {events.length > 0 ? (

@@ -199,32 +199,42 @@ app.post('/signup', async (req, res) => {
     }
 });
 
-// return all events (needs more testing)
+// Get all events with pagination
 app.get('/events', async (req, res) => {
-    const limit = 12; 
-    const page = parseInt(req.query.page) || 1; 
-    const offset = (page - 1) * limit;
+  const limit = parseInt(req.query.limit) || 12;
+  const lastDate = req.query.lastDate; // For cursor-based pagination
 
-    try {
-        const eventsSnapshot = await db.collection('events')
-            .orderBy('date') 
-            .limit(limit)
-            .offset(offset)
-            .get();
+  try {
+      let query = db.collection('events')
+          .orderBy('date')
+          .limit(limit);
 
-        const events = [];
-        eventsSnapshot.forEach((doc) => {
-            events.push({
-                id: doc.id,
-                ...doc.data(),
-            });
-        });
+      // If there's a lastDate parameter, use it for pagination
+      if (lastDate) {
+          const lastDateSnapshot = await db.collection('events').doc(lastDate).get();
+          query = query.startAfter(lastDateSnapshot);
+      }
 
-        return res.status(200).json(events);
-    } catch (err) {
-        console.error('Error fetching events:', err);
-        return res.status(500).json({ message: 'Internal server error.' });
-    }
+      const eventsSnapshot = await query.get();
+
+      const events = [];
+      eventsSnapshot.forEach((doc) => {
+          events.push({
+              id: doc.id,
+              ...doc.data(),
+              // Convert Firestore Timestamp to JavaScript Date if needed
+              date: doc.data().date.toDate ? doc.data().date.toDate() : doc.data().date
+          });
+      });
+
+      return res.status(200).json(events);
+  } catch (err) {
+      console.error('Error fetching events:', err);
+      return res.status(500).json({ 
+          message: 'Internal server error.',
+          error: err.message // Include the actual error message
+      });
+  }
 });
 
 // search feature
