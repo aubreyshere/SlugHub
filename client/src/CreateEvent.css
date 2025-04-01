@@ -7,15 +7,16 @@ html, body {
 .createPage {
     display: flex;
     width: 100vw;
-    height: 100vh;
+    height: 100vh; /* height of the screen/browser window*/
     align-items: center;
     justify-content: center;
+    margin-top: -10px;
 }
 
 .createBox {
     background-color: aliceblue;
-    height: 90%;
-    width: 90%;
+    height: 430px;
+    width: 90vw;
 }
 
 .infoFill {

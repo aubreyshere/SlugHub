@@ -4,9 +4,8 @@
     gap: 40px; /* Space between event cards */
     justify-content: flex-start; /* Align event cards to the left */
     flex-wrap: wrap; 
-    gap: 60px; 
     justify-content: flex-start; 
-    padding: 30px;
+    padding: 20px;
 }
 
 .header h1 {
