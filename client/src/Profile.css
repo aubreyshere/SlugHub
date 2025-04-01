@@ -1,0 +1,13 @@
+
+.eventsList {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    gap: 40px; /* Space between event cards */
+    justify-content: flex-start; /* Align event cards to the left */
+    padding: 20px;
+}
+
+.profileBox {
+    margin-top: 80px;
+    margin-left: 20px;
+}
