@@ -5,13 +5,14 @@
 
 .eventsContainer {
     display: flex;
-    flex-wrap: wrap; /* Wrap to next row when hitting the edge */
-    gap: 40px; /* Space between event cards */
-    justify-content: flex-start; /* Align event cards to the left */
     flex-wrap: wrap; 
     gap: 60px; 
-    justify-content: flex-start; 
+    justify-content: center; 
     padding: 30px;
+    background-color: aliceblue;
+    height: 90%;
+    width: 90%;
+    align-self: center;
 }
 
 .header h1 {
