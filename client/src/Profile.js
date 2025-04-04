@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Profile.css';
 import EventPreview from './EventPreview'; // Import the EventPreview component
+import LogOutButton from "./LogOutButton";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -54,8 +55,8 @@ const Profile = () => {
 
   return (
     <div className="profileBox">
+      <h2>Profile Information</h2>
       <div className="leftProfileBox">
-        <h2>Profile Information</h2>
         {user ? (
           <>
             <p className="usernameDisplay">
@@ -67,14 +68,15 @@ const Profile = () => {
             <p className="passwordDisplay">
               <strong>Password:</strong> ********
             </p>
+            <LogOutButton />
           </>
         ) : (
           <p>No user data available.</p>
         )}
       </div>
+      <h2>Active Events</h2>
       <div className="rightProfileBox">
         <div className="activeEvents">
-          <h2>Active Events</h2>
           {events.length > 0 ? (
             <div className="eventsList">
               {events.map((event) => (

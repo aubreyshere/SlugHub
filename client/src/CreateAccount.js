@@ -39,6 +39,9 @@ const CreateAccount = () => {
   return (
     <div className='container'>
       <div className='signUpBox'>
+        <div className='signUpHeader'>
+          <h2>— Create Account —</h2>
+        </div>
         <form onSubmit={handleSubmit}>
           <div className='email'>
             <h1>Email</h1>
@@ -85,7 +88,7 @@ const CreateAccount = () => {
             />
           </div>
           <br />
-          <button className='createAccount-signButton'>Create Account</button>
+          <button className='createAccount-signButton'>Sign Up</button>
           <br />
           <div className='noAccount'>
             Have an account?

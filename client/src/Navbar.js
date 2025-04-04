@@ -32,7 +32,7 @@ const Navbar = ({ loggedIn, setLoggedIn }) => {
             {/* waveeee*/}
             <svg 
                 className="nav-wave" 
-                viewBox="0 0 1200 60" 
+                viewBox="0 10 1200 110" 
                 preserveAspectRatio="none"
             >
                 <defs>
@@ -49,7 +49,7 @@ const Navbar = ({ loggedIn, setLoggedIn }) => {
                 />
                 <path 
                     d="M0,0V25c47.79,12,103.59,18,158,15,70.36-3,136.33-18,206.8-20C438.64,17,512.34,28,583,38c69.27,10,138.3,13,209.4,7,36.15-3,69.85-10,104.45-16C989.49,14,1113-8,1200,28V0Z" 
-                    fill="#003566"
+                    fill="#163785"
                 />
             </svg>
         </div>   

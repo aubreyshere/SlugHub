@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
 
-
-
 const SignIn = () => {
     const navigate = useNavigate()
     const [email, setEmail] = useState(''); // add this
@@ -31,29 +29,41 @@ const SignIn = () => {
     }
 
     return (
-
-        <div className = 'container'>
+    <div class="waveWrapper">
+        <svg width="0" height="0">
+            <defs>
+                /*need to make the container wavy on the sides!*/
+            </defs>
+        </svg>
+        <div className = 'signInContainer'>
             <div className='signInBox'>
-                <form onSubmit={handleSubmit}>
-                    <div className = 'user'>
-                    <h1>Email</h1>
-                    <input className='usernameInput' type="text" placeholder="Enter Email" onChange={ e => setEmail(e.target.value)}/> 
+                <div className = 'signInForm'>
+                    <form onSubmit={handleSubmit}>
+                    <div className = 'signInHeader'>
+                    <h2>— Sign In —</h2>
                     </div>
-                    <div className='pass'>
+                    <div className = 'signInEmail'>
+                    <h1>Email</h1>
+                    <input className='signInEmailInput' type="text" placeholder="Enter Email" onChange={ e => setEmail(e.target.value)}/> 
+                    </div>
+                    <div className='signInPass'>
                     <h1>Password</h1>
-                    <input className='passwordInput' type="password" placeholder="Enter Password" onChange={ e => setPassword(e.target.value)}/>
+                    <input className='signInPasswordInput' type="password" placeholder="Enter Password" onChange={ e => setPassword(e.target.value)}/>
                     </div>
                     <br />
                     <button className='signIn-signButton'>Sign in</button>
                     <br />
-                    <div className='noAccount'>
+                    <div className='signInNoAccount'>
                         Don't have an account?
-                        <button className='createAccountLink' onClick={()=>{navigate('/create-account')}}>Create one!</button>
+                        <button className='signInCreateAccountLink' onClick={()=>{navigate('/create-account')}}>Create one!</button>
                     </div>
-                    <button className='forgotPass'>Forgot password?</button>
+                    <button className='signInForgotPass'>Forgot password?</button>
                 </form>
+                </div>
+                
             </div>
         </div>
+    </div>
     );
 };
 
