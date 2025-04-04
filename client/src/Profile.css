@@ -2,9 +2,9 @@
 
 .eventsList {
     display: flex;
-    flex-wrap: wrap; /* Allow items to wrap to the next line */
-    gap: 40px; /* Space between event cards */
-    justify-content: flex-start; /* Align event cards to the left */
+    flex-wrap: wrap; 
+    gap: 40px; 
+    justify-content: flex-start; 
     padding: 20px;
 }
 
@@ -18,16 +18,18 @@
 }
 
 .leftProfileBox {
+    display: flex;
     height: 160px;
     margin-right: 20px;
     margin-top: -15px;
     padding: 20px 0px;
     padding-left: 20px;
-    padding-right: -20px;
+    padding-right: 20px;
     font-size: 16px;
     background-color: #CCF2FF;
     border-radius: 12px;
     font-family: 'Work Sans';
+    justify-content: space-between;
 }
 
 .rightProfileBox {
@@ -35,4 +37,12 @@
     margin-top: 10px;
     background-color: #CCF2FF;
     border-radius: 12px;
+}
+
+.logOutBox {
+    width:20%;
+    height:100%;
+    display: flex;
+    flex-direction: column;   
+    justify-content: flex-end;
 }

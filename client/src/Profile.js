@@ -57,6 +57,7 @@ const Profile = () => {
     <div className="profileBox">
       <h2>Profile Information</h2>
       <div className="leftProfileBox">
+        <div>
         {user ? (
           <>
             <p className="usernameDisplay">
@@ -68,11 +69,14 @@ const Profile = () => {
             <p className="passwordDisplay">
               <strong>Password:</strong> ********
             </p>
-            <LogOutButton />
           </>
         ) : (
           <p>No user data available.</p>
         )}
+        </div>
+        <div className='logOutBox'>
+        <LogOutButton />
+        </div>
       </div>
       <h2>Active Events</h2>
       <div className="rightProfileBox">

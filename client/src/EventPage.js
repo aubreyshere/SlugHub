@@ -60,14 +60,13 @@ const EventPage = () => {
             .then(async (eventData) => {
                 setEvent(eventData);
 
-                // Fetch user data if user_id exists in the event data
                 if (eventData.user_id) {
                     try {
                         const userData = await fetchUserById(eventData.user_id);
                         setUser(userData);
                     } catch (error) {
                         console.error('Failed to fetch user:', error);
-                        setUser(null); // Set user to null if not found
+                        setUser(null); 
                     }
                 }
             })

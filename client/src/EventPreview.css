@@ -65,13 +65,15 @@
     flex-direction: column;
     justify-content: flex-start;
     overflow: hidden;
+    flex: 1;
 }
 
 .eventTitle {
     font-size: 18px;
     font-weight: bold;
     color: #333;
-    flex: 1;
+    margin-bottom: 0;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }

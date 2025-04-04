@@ -6,11 +6,11 @@ import axios from 'axios';
 
 const SignIn = () => {
     const navigate = useNavigate()
-    const [email, setEmail] = useState(''); // add this
-    const [password, setPassword] = useState(''); // add this
+    const [email, setEmail] = useState(''); 
+    const [password, setPassword] = useState(''); 
     function handleSubmit(event) {
         event.preventDefault();
-        console.log('Submitting email and password:', { email, password }); // Debugging log
+        console.log('Submitting email and password:', { email, password }); 
     
         axios.post('http://localhost:4000/signin', { email, password })
             .then(res => {
