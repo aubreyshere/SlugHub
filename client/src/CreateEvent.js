@@ -86,37 +86,43 @@ const CreateEvent = () => {
                 'Upload Image'
               )}
             </label>
-            <br />
-            <input
-              className="eventNameUpload"
-              type="text"
-              placeholder="Event title..."
-              name="title"
-              value={values.title}
-              onChange={handleChange}
-            />
-            <br />
-            <input
-              className="eventDescriptionUpload"
-              type="text"
-              placeholder="Event description..."
-              name="description"
-              value={values.description}
-              onChange={handleChange}
-            />
+            <div className='inputContainer'>
+              <input
+                className="eventNameUpload"
+                type="text"
+                placeholder="Event title..."
+                name="title"
+                value={values.title}
+                onChange={handleChange}
+              />
+              <p className= 'subtitle'>
+                * max 100 characters
+              </p>
+              </div>
+            <div className='inputContainer2'>
+              <textarea
+                className="eventDescriptionUpload"
+                placeholder="Event description..."
+                name="description"
+                value={values.description}
+                onChange={handleChange}
+                rows={6} // You can change the number of rows if needed
+              />
+              <p className= 'subtitle'>
+                * max 500 characters
+              </p>
+            </div>
           </div>
           <div className="rightBox">
             <div className="trackingInput">
-              <div className="dateInput">
-                <input
+              <input
                   className="dateInput"
                   type="date"
                   placeholder="mm-dd-yyyy"
                   name="date"
                   value={values.date}
                   onChange={handleChange}
-                />
-              </div>
+              />
               <div className="timeInput">
                 <input
                   className="timeInputStart"
@@ -126,6 +132,7 @@ const CreateEvent = () => {
                   value={values.startTime}
                   onChange={handleChange}
                 />
+                <br/>
                 <input
                   className="timeInputEnd"
                   type="time"
@@ -135,6 +142,7 @@ const CreateEvent = () => {
                   onChange={handleChange}
                 />
             </div>
+            <div className='topBorder'>
               <input
                 className="locationInput"
                 type="text"
@@ -143,6 +151,10 @@ const CreateEvent = () => {
                 value={values.location}
                 onChange={handleChange}
               />
+              <p className= 'subtitle'>
+                * max 100 characters
+              </p>
+            </div>
             </div>
             <button type="submit" className="postEvent">
               Post Event!

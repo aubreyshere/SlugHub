@@ -48,7 +48,7 @@ app.post('/create-event', authenticateToken, async (req, res) => {
   const { title, description, photo, date, startTime, endTime, location } = req.body;
   const user_id = req.user.userId; 
 
-  const MAX_TITLE_LENGTH = 50;
+  const MAX_TITLE_LENGTH = 100;
   const MAX_DESCRIPTION_LENGTH = 500;
   const MAX_LOCATION_LENGTH = 100;
 

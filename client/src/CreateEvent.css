@@ -7,7 +7,7 @@ html, body {
 .createPage {
     display: flex;
     width: 100vw;
-    height: 100vh; /* height of the screen/browser window*/
+    height: 100vh; 
     align-items: center;
     justify-content: center;
     margin-top: -10px;
@@ -15,8 +15,9 @@ html, body {
 
 .createBox {
     background-color: #CCF2FF;
-    height: 430px;
-    width: 90vw;
+    height: 80%;
+    width: 90%;
+    border-radius: 12px;
 }
 
 .infoFill {
@@ -31,19 +32,20 @@ html, body {
     width: 60%;
     height: 100%;
     padding: 5%;
-    padding-right: 0;
+    padding-right: 2.5%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
 }
 
 .uploadButton {
-    width: 80%; 
-    height: 200px; 
+    width: 100%; 
+    height: 50%; 
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #007bff; 
+    background-color: #61606E; 
     color: white; 
     border-radius: 5px; 
     cursor: pointer;
@@ -56,7 +58,7 @@ html, body {
 }
 
 .uploadButton:hover {
-    background-color: #0056b3; 
+    background-color: #42414a; 
 }
 
 .uploadedImage {
@@ -70,14 +72,26 @@ html, body {
     display: none; 
 }
 
+.locationInput,
 .eventNameUpload,
 .eventDescriptionUpload {
-    width: 80%; 
+    width: 100%; 
     padding: 10px;
-    margin-bottom: 10px; 
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
+    resize: none;
+}
+
+.locationInput {
+    margin-top: 20px;
+}
+.trackingInput {
+    width: 100%;
+    height: 100%;
+}
+.eventDescriptionUpload {
+    height: 100%;
 }
 
 .rightBox {
@@ -86,34 +100,57 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
     padding: 5%;
-    padding-left: 0;
+    padding-left: 2.5%;
 }
 
 .dateInput,
 .timeInputStart,
 .timeInputEnd {
-    width: 80%; 
+    width: 100%; 
     padding: 10px;
-    margin-bottom: 10px; 
+    margin-top: 10%; 
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
 }
 
+.dateInput {
+    margin: 0;
+}
+
 .postEvent {
     border: none;
     cursor: pointer;
-    width: 80%;
-    height: 40px; 
+    width: 100%;
+    height: 15%; 
     color: white;
     background-color: #163785;
     border-radius: 5px;
     font-size: 16px;
-    margin-top: 10px; 
+    margin-top: 10%; 
 }
 
 .postEvent:hover {
     background-color: #002244; 
 }
 
+.subtitle {
+    font-size: 12px;
+    margin: 0;
+}
+
+.inputContainer {
+    width: 100%;
+}
+
+.inputContainer2 {
+    width: 100%;
+    height: 30%;
+}
+
+.topBorder {
+    border-top:solid #002244 1px;
+    margin-top: 5%;
+}
