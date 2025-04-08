@@ -27,7 +27,7 @@ html, body {
     width: 60%;
     height: 100%;
     padding: 5%;
-    padding-right: 0;
+    padding-right: 2.5%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -40,7 +40,7 @@ html, body {
     flex-direction: column;
     align-items: center;
     padding: 5%;
-    padding-left: 0;
+    padding-left: 2.5%;
 }
 
 .eventTitlePage {
@@ -48,6 +48,9 @@ html, body {
     width: 100%;
     text-align: left;
     margin: 0;
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .eventImagePage {
@@ -67,4 +70,20 @@ html, body {
     width: 100%;
     overflow: wrap;
     margin:0;
+}
+
+.userProfile {
+    width: 100%;
+}
+
+.eventDayPage {
+    width: 100%;
+}
+
+.eventTimePage {
+    width: 100%;
+}
+
+.eventlocationPage {
+    width: 100%;
 }
