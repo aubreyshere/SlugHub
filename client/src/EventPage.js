@@ -9,6 +9,8 @@ const EventPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
+    const defaultImage = "/images/location_on.jpg";
+
     const fetchUserById = async (userId) => {
         try {
             const response = await fetch(`http://localhost:4000/user/${userId}`);
@@ -94,19 +96,21 @@ const EventPage = () => {
         <div className="eventPage">
             <div className="eventBox">
                 <div className="leftEventBox">
-                    {event.photo && (
-                        <img className='eventPageImage' src={event.photo} alt={event.title || 'Event'} />
-                    )}
-                    <h1 className='eventTitle'>{event.title || 'Untitled Event'}</h1>
-                    <p className='eventDescription'>{event.description || 'No description available.'}</p>
+                <img 
+                    className='eventImagePage' 
+                    src={event?.photo || defaultImage} 
+                    alt={event?.title || "Event image"} 
+                />
+                    <h1 className='eventTitlePage'>{event.title || 'Untitled Event'}</h1>
+                    <p className='eventDescriptionPage'>{event.description || 'No description available.'}</p>
                 </div>
                 <div className="rightEventBox">
                     <div className='userProfile'>
                         <p>Hosted by: {user ? user.username : 'User not found'}</p>
                     </div>
-                    <p className='eventDay'>Date: {event.date || 'Not specified'}</p>
-                    <p className='eventTime'>Time: {event.startTime || 'Not specified'} - {event.endTime || 'Not specified'}</p>
-                    <p className='eventLocation'>Location: {event.location || 'Not specified'}</p>
+                    <p className='eventDayPage'>Date: {event.date || 'Not specified'}</p>
+                    <p className='eventTimePage'>Time: {event.startTime || 'Not specified'} - {event.endTime || 'Not specified'}</p>
+                    <p className='eventLocationPage'>Location: {event.location || 'Not specified'}</p>
                 </div>
             </div>
         </div>
