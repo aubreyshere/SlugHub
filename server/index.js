@@ -258,37 +258,46 @@ app.get('/events', async (req, res) => {
 
 // search feature
 app.get('/search', async (req, res) => {
-    const { q } = req.query; 
+  const { q } = req.query;
   
-    if (!q) {
+  if (!q) {
       return res.status(400).json({ message: 'Search query is required' });
-    }
-  
-    try {
-      const eventsRef = db.collection('events'); 
-      const snapshot = await eventsRef
-        .where('title', '>=', q) 
-        .where('title', '<=', q + '\uf8ff') 
-        .get();
-  
+  }
+
+  try {
+      const eventsRef = db.collection('events');
+      const snapshot = await eventsRef.get();
+      
       if (snapshot.empty) {
-        return res.status(404).json({ message: 'No events found' });
+          return res.status(404).json({ message: 'No events found' });
       }
-  
+
+      const searchTerm = q.toLowerCase();
       const events = [];
+      
       snapshot.forEach((doc) => {
-        events.push({
-          id: doc.id,
-          ...doc.data(),
-        });
+          const data = doc.data();
+          const titleMatch = data.title?.toLowerCase().includes(searchTerm);
+          const descMatch = data.description?.toLowerCase().includes(searchTerm);
+          
+          if (titleMatch || descMatch) {
+              events.push({
+                  id: doc.id,
+                  ...data,
+              });
+          }
       });
-  
+
+      if (events.length === 0) {
+          return res.status(404).json({ message: 'No matching events found' });
+      }
+
       return res.status(200).json(events);
-    } catch (err) {
+  } catch (err) {
       console.error('Error searching events:', err);
       return res.status(500).json({ message: 'Failed to search events' });
-    }
-  });
+  }
+});
 
   //get user info
   app.get('/api/user', authenticateToken, async (req, res) => {
