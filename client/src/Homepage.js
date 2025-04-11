@@ -18,7 +18,12 @@ const Homepage = () => {
                 }
                 
                 const data = await response.json();
-                setEvents(data);
+                // filter the events shown
+                const now = new Date();
+                const upcomingEvents = data
+                    .filter(event => new Date(event.date) > now)
+                    .sort((a, b) => new Date(a.date) - new Date(b.date)); 
+                setEvents(upcomingEvents);
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -66,7 +71,7 @@ const Homepage = () => {
         </svg>
         
         <div className="wavy-content">
-            <h1 className='recommendedText'>Recommended</h1>
+            <h1 className='recommendedText'>Recommended Upcoming Events</h1>
         </div>
         
         <svg className="wave-bottom" viewBox="0 0 1200 40" preserveAspectRatio="none">
@@ -78,6 +83,7 @@ const Homepage = () => {
         </svg>
         </div>
       );
+
     if (isLoading) {
         return (
             <div className="homepage">
@@ -116,7 +122,7 @@ const Homepage = () => {
                         <EventPreview key={event.id} event={event} />
                     ))
                 ) : (
-                    <div className="noEvents">No events available</div>
+                    <div className="noEvents">No upcoming events available</div>
                 )}
             </div>
         </div>
