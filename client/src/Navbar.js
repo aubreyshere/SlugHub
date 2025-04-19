@@ -5,26 +5,29 @@ import './Navbar.css';
 const Navbar = ({ loggedIn, setLoggedIn }) => {
     const navigate = useNavigate();
 
+
     return (
-        <div className='navBarContainer'>
-            <nav className='navbar'>
-                <div className='logoNav'>
-                    <img className='logoImage'alt='logoImage' src='/images/Slug-No-Background-Clip-Art.png' />
+        <div className="navBarContainer">
+            <nav className="navbar">
+                <div className="logoNav">
+                    <img className="logoImage" alt="logoImage" src="/images/Slug-No-Background-Clip-Art.png" />
                     SlugHub
                 </div>
-                <ul className='nav-links'>
-                    <button className='buttonNav' onClick={() => navigate('/')}><img src='/images/Home.png' alt='homeNav'/></button>
-                    <button
-                        className='buttonNav'
-                        onClick={() => navigate(loggedIn ? '/create-event' : '/sign-in')}
-                    >
-                        <img src='/images/Plus.png' alt='createNav'/>
+                <ul className="nav-links">
+                    <button className="buttonNav" onClick={() => navigate('/')}>
+                        <img src="/images/Home.png" alt="homeNav" />
                     </button>
                     <button
-                        className='buttonNav'
+                        className="buttonNav"
+                        onClick={() => navigate(loggedIn ? '/create-event' : '/sign-in')}
+                    >
+                        <img src="/images/Plus.png" alt="createNav" />
+                    </button>
+                    <button
+                        className="buttonNav"
                         onClick={() => navigate(loggedIn ? '/profile' : '/sign-in')}
                     >
-                        <img src='/images/settings.png' alt='profileNav'/>
+                        <img src="/images/settings.png" alt="profileNav" />
                     </button>
                 </ul>
             </nav>

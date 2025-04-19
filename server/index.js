@@ -52,7 +52,7 @@ app.post('/create-event', authenticateToken, async (req, res) => {
   const MAX_DESCRIPTION_LENGTH = 500;
   const MAX_LOCATION_LENGTH = 100;
 
-  const MAX_FILE_SIZE = 25 * 1024 * 1024;
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; 
 
   if (!title || !description || !date || !location) {
       return res.status(400).json({ message: 'Required fields missing!' });

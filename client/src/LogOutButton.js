@@ -2,12 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";  // For redirecting after logout
 import "./LogOutButton.css";
 
-const LogOutButton = () => {
+const LogOutButton = ({ setIsLoggedIn }) => { // Accept setIsLoggedIn as a prop
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");  // remove JWT token
-    navigate("/sign-in");  // goes to sign-in page after logout
+    localStorage.removeItem("token");  // Remove JWT token
+    setIsLoggedIn(false);  // Update the login state
+    navigate("/sign-in");  // Redirect to sign-in page
   };
 
   return (

@@ -3,7 +3,7 @@ import './Profile.css';
 import EventPreview from './EventPreview'; // Import the EventPreview component
 import LogOutButton from "./LogOutButton";
 
-const Profile = () => {
+const Profile = ({ setIsLoggedIn }) => { // Accept setIsLoggedIn as a prop
   const [user, setUser] = useState(null);
   const [events, setEvents] = useState([]); // State for user events
   const [loading, setLoading] = useState(true);
@@ -75,7 +75,7 @@ const Profile = () => {
         )}
         </div>
         <div className='logOutBox'>
-        <LogOutButton />
+        <LogOutButton setIsLoggedIn={setIsLoggedIn} /> {/* Pass setIsLoggedIn */}
         </div>
       </div>
       <h2>Active Events</h2>
