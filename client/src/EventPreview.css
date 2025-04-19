@@ -98,18 +98,16 @@
     font-weight: 600;
     color: #00468C;
     margin: 0;
-    max-height: 40px; /* adjust as needed */
-    overflow-y: auto;
-    overflow-x: hidden;
-    word-break: break-word;
-    padding-right: 4px; /* prevents text from being hidden behind scrollbar */
+    margin-bottom: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; 
 }
 
 
 .moreInfo {
     font-size: 12px;
     color: #00468C;
-    text-decoration: underline;
     text-align: right;
     cursor: pointer;
     margin-bottom: 0;

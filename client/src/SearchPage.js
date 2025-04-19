@@ -45,6 +45,7 @@ const SearchPage = () => {
 
   return (
     <div className="searchPage">
+      <div className="searchPageBox">
       <div className="topBoxResults">
         <h1>Top results for "{query}":</h1>
         <form className="search-form" onSubmit={handleSearchSubmit}>
@@ -75,6 +76,7 @@ const SearchPage = () => {
           <div className="noEvents">No events found</div>
         )}
       </div>
+    </div>
     </div>
   );
 };
