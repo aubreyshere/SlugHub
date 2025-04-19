@@ -71,7 +71,7 @@ const Homepage = () => {
         </svg>
         
         <div className="wavy-content">
-            <h1 className='recommendedText'>Recommended Upcoming Events</h1>
+            <h1 className='recommendedText'>Upcoming Events</h1>
         </div>
         
         <svg className="wave-bottom" viewBox="0 0 1200 40" preserveAspectRatio="none">

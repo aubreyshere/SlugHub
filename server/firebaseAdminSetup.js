@@ -1,5 +1,5 @@
 const admin = require('firebase-admin');
-const serviceAccount = require('../config/slughubbing-firebase-adminsdk-fbsvc-2c2cf2dc22.json');
+const serviceAccount = require('../config/-insertkey-');
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),

@@ -37,10 +37,17 @@ const CreateAccount = () => {
   };
 
   return (
+    <div class="SignUpWaveWrapper">
+    <svg width="0" height="0">
+        <defs>
+            /*need to make the container wavy on the sides!*/
+        </defs>
+    </svg>
+    
     <div className='container'>
       <div className='signUpBox'>
         <div className='signUpHeader'>
-          <h2>— Create Account —</h2>
+          <h2>Create Account</h2>
         </div>
         <form onSubmit={handleSubmit}>
           <div className='email'>
@@ -71,7 +78,7 @@ const CreateAccount = () => {
               className='passwordInput'
               type='password'
               placeholder='Enter Password'
-              name='password'
+              name='pass'
               value={values.password}
               onChange={handleChange}
             />
@@ -99,6 +106,7 @@ const CreateAccount = () => {
         </form>
       </div>
     </div>
+  </div>
   );
 };
 

@@ -40,7 +40,7 @@ const SignIn = () => {
                 <div className = 'signInForm'>
                     <form onSubmit={handleSubmit}>
                     <div className = 'signInHeader'>
-                    <h2>— Sign In —</h2>
+                    <h2>- Sign In -</h2>
                     </div>
                     <div className = 'signInEmail'>
                     <h1>Email</h1>

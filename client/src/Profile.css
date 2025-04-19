@@ -4,6 +4,11 @@
     box-sizing: border-box;
 }
 
+.profileBox h2 {
+    font-size: 28px;
+    font-weight: 700;
+    font-family: 'Poppins';
+}
 
 .eventsList {
     display: flex;
@@ -17,35 +22,47 @@
     margin-top: 50px;
     margin-left: 20px;
     margin-right: 20px;
-    font-size: 24px;
-    font-weight: 700;
-    font-family: 'Poppins';
 }
 
 .leftProfileBox {
     display: flex;
     height: 160px;
     margin-right: 20px;
-    margin-top: -15px;
-    padding: 20px 0px;
-    padding-left: 20px;
-    padding-right: 20px;
-    font-size: 16px;
+    margin-top: -10px;
+    vertical-align: center;
+    padding: 30px;
+    font-size: 18px;
     background-color: #CCF2FF;
     border-radius: 12px;
-    font-family: 'Work Sans';
+    font-family: 'Poppins';
     justify-content: space-between;
+}
+
+.usernameDisplay {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-weight: 450;
+}
+.emailDisplay {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    font-weight: 450;
+}
+.passwordDisplay {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-weight: 450;
 }
 
 .rightProfileBox {
     margin-right: 20px;
-    margin-top: 10px;
+    margin-top: -10px;
     background-color: #CCF2FF;
     border-radius: 12px;
 }
 
 .logOutBox {
-    width:20%;
+    width:16%;
     height:100%;
     display: flex;
     flex-direction: column;   

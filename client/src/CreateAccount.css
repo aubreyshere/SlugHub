@@ -1,34 +1,87 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Potta+One&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
-.container {
+.container html, body {
+    height: 100%;
+    font-family: 'Poppins';
+    padding: 0;
+    overflow-y: scroll;
+}
+
+.container form {
+    align-content: center;
+    padding-top: 50px;
+}
+
+.container h1 {
+    text-align: left;
+    padding-top: 16px;
+    margin: 0;
+    font-size: 22px;
+}
+
+.signUpBox input[type='text'] {
+    text-indent: 4px;
+    border-radius: 4px;
+    width: 100%;
+    font-family: 'Poppins';
+    background-color: #e6faff;
+    font-size: 13px;
+}
+
+.signUpBox input[type='password'] {
+    text-indent: 4px;
+    border-radius: 4px;
+    width: 100%;
+    font-family: 'Poppins';
+    background-color: #e6faff;
+    font-size: 13px;
+}
+
+input:-webkit-autofill {   /*fills the input fields for PasswordInput & UsernameInput*/
+    background-color: #e6faff !important;
+    -webkit-box-shadow: 0 0 0px 1000px #e6faff inset !important; /* Ensures color stays */
+    color: black !important;
+}
+
+.SignInWaveWrapper {
     border-radius: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 10vh;
+  }
+
+  /*wave wrapper & wave aspect end*/
+
+.container {
+    font-family: 'Poppins';
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 50px;
-    margin-bottom: 100px;
-    width: 520px;   /* set width */
-    height: 470px;  /* set height */
     background: #ffe77d;
     border-radius: 10px;
     border-width: 20px;
     
-    position: fixed;   /* centers in the middle of the page */
-    top: 50%;
+    position: absolute;   /* centers in the middle of the page */
     left: 50%;
     transform: translate(-50%, -50%);
+    margin-top: 280px;
+    margin-bottom: 150px;
+    width: 420px;   /* set width */
+    height: 500px;  /* set height */
+    background: #ffe77d;
 }
 
 .signUpHeader {
+    text-wrap: nowrap;
     text-align: center;
-    font-family: 'Poppins';
     font-size: 23px;
-    padding-bottom: 66px;
-        
-    position: fixed;   /* centers in the middle of the page */
+    font-family: 'Poppins';  
+    position: absolute;   /* centers in the middle of the page */
     left: 50%;
     top: 29%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -125%);
 }
 
 .signUpBox {
@@ -37,16 +90,17 @@
     justify-content: center;
     align-items: center;
     background-color: #ffffff;
-    height: 510px;
-    width: 400px;
+    width: 340px;
+    height: 440px;
     border-radius: 10px;
     position: relative;
 }
 
 .email {
-    padding: 10px;
-    font-size: 8pt;
-    width: 80%;
+    padding-left: 10px;
+    font-size: 8px;
+    width: 100%;
+    margin: 0px;
 }
 .emailInput {
     width: 100%;
@@ -54,9 +108,12 @@
 }
 
 .username {
-    padding:10px;
+    padding-left: 10px;
     font-size: 8pt;
-    width: 80%;
+    width: 100%;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    margin: 0px;
 }
 .usernameInput {
     width: 100%;
@@ -65,29 +122,40 @@
 
 .pass {
     font-size: 8pt;
-    padding:10px;
-    width: 80%;
+    padding-left: 10px;
+    width: 100%;
 }
 .passwordInput {
+    font-family: 'Poppins';
     width: 100%;
-    border-radius: 5px;
+    text-indent: 4px;
+    border-radius: 4px;
+    background-color: #e6faff;
 }
 .passConfirm {
-    font-size: 8pt;
-    padding:10px;
-    width: 80%;
+    padding-left: 10px;
+    margin: 0px;
+    width: 100%
 }
 .passwordConfirmInput {
     width: 100%;
-    border-radius: 5px;
+    font-family: 'Poppins';
+    text-indent: 4px;
+    border-radius: 4px;
+    background-color: #e6faff;
 }
 .createAccount-signButton {
     border: none;
     cursor: pointer;
+    padding: 0px;
+    font-family: 'Poppins';
+    margin-top: 10px;
+    border-radius: 5px;
     width: 70%;
     height: 30px;
     color: white;
     background-color: #163785;
+    border-radius: 5px;
     position: absolute;
     bottom: 35px; /* places button at the bottom of the box */
     left: 50%; /* horizontally positioned at center */
@@ -97,23 +165,26 @@
     color: #ddd;
 }
 .noAccount {
+    transform: translateY(20%);
+    align-self: center;
+    padding-bottom: 10px;
+    margin-top: 0px;
     font-size: 10pt;
+    text-align: center;
 }
 .createAccountLink {
-    color: #163785;
+    color: #5083E0;
     text-decoration: underline;
     background-color: transparent;
     outline: none;
     border: none;
     cursor: pointer;
     font-size: 10pt;
+    font-family: 'Poppins';
 }
-.forgotPass {
-    color: #163785;
-    text-decoration: underline;
-    background-color: transparent;
-    outline: none;
-    border: none;
-    cursor: pointer;
-    font-size: 10pt;
+
+input:-webkit-autofill {   /*fills the input fields for PasswordInput & UsernameInput*/
+    background-color: #e6faff !important;
+    -webkit-box-shadow: 0 0 0px 1000px #e6faff inset !important; /* Ensures color stays */
+    color: black !important;
 }
