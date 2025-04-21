@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './EventPage.css';
+import Loading from './Loading';
 
 const EventPage = () => {
     const { eventId } = useParams(); 
@@ -81,7 +82,7 @@ const EventPage = () => {
     }, [eventId]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div><Loading/></div>;
     }
 
     if (error) {

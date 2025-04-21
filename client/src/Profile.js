@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './Profile.css';
-import EventPreview from './EventPreview'; // Import the EventPreview component
+import EventPreview from './EventPreview'; 
 import LogOutButton from "./LogOutButton";
+import Loading from './Loading'; 
 
-const Profile = ({ setIsLoggedIn }) => { // Accept setIsLoggedIn as a prop
+const Profile = ({ setIsLoggedIn }) => { 
   const [user, setUser] = useState(null);
-  const [events, setEvents] = useState([]); // State for user events
+  const [events, setEvents] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -50,7 +51,7 @@ const Profile = ({ setIsLoggedIn }) => { // Accept setIsLoggedIn as a prop
     fetchUserData();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div><Loading/></div>;
   if (error) return <div className="error">Error: {error}</div>;
 
   return (

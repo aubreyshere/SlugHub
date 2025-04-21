@@ -157,10 +157,11 @@ input:-webkit-autofill {   /*fills the input fields for PasswordInput & Username
     background-color: #163785;
     border-radius: 5px;
     position: absolute;
-    bottom: 35px; /* places button at the bottom of the box */
-    left: 50%; /* horizontally positioned at center */
+    bottom: 35px; 
+    left: 50%; 
     transform: translateX(-50%);
 }
+
 .signUpBox .createAccount-signButton:hover {
     color: #ddd;
 }

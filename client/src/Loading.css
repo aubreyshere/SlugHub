@@ -1,0 +1,49 @@
+.loading-container {
+    font-family: monospace;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+  }
+  
+  .loadingAnimation {
+    display: inline-block;
+  }
+  
+  .ellipse {
+    color: #F0C419;
+    font-weight: bold;
+    font-size: 2em;
+    letter-spacing: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    animation: bounceDots 1.5s ease-in-out infinite;
+  }
+  
+  .loading-image {
+    height: 2em;
+    vertical-align: middle;
+    animation: pulseImage 1.5s ease-in-out infinite;
+  }
+  
+  @keyframes bounceDots {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-3px);
+    }
+  }
+
+  @keyframes pulseImage {
+    0%, 100% {
+      opacity: 0.9;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+  }
+  

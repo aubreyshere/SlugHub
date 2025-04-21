@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './SearchPage.css';
 import EventPreview from './EventPreview';
 import { useLocation, useNavigate } from 'react-router-dom';
-import SearchBar from './searchBar'; 
+import Loading from './Loading';
 
 const SearchPage = () => {
   const location = useLocation();
@@ -34,7 +34,7 @@ const SearchPage = () => {
     };
 
     fetchEvents();
-  }, [query]); 
+  }, [query]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -46,39 +46,53 @@ const SearchPage = () => {
   return (
     <div className="searchPage">
       <div className="searchPageBox">
-      <div className="topBoxResults">
-        <h1>Top results for "{query}":</h1>
-        <form className="search-form" onSubmit={handleSearchSubmit}>
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search events..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <button type="submit" className="search-button">
-            <img className="search-icon" src="/images/search-icon-png-21.png" alt="searchIcon" />
-          </button>
-        </form>
-      </div>
-      <div className="resultBox">
+        <div className="topBoxResults">
+          <h1>Top results for "{query}":</h1>
+          <form className="search-form" onSubmit={handleSearchSubmit}>
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search events..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <button type="submit" className="search-button">
+              <img
+                className="search-icon"
+                src="/images/search-icon-png-21.png"
+                alt="searchIcon"
+              />
+            </button>
+          </form>
+        </div>
+
+        {/* 🔁 Conditional render: loading OR results */}
         {isLoading ? (
-          <div>Loading...</div>
+          <div className="loading-wrapper">
+            <Loading />
+          </div>
         ) : error ? (
-          <div className="error">{error}</div>
+          <div className="resultBox">
+            <div className="error">{error}</div>
+          </div>
         ) : events.length > 0 ? (
-          <div className="eventResults">
-            {events.map((event) => (
-              <EventPreview key={event.id} event={event} />
-            ))}
+          <div className="resultBox">
+            <div className="eventResults">
+              {events.map((event) => (
+                <EventPreview key={event.id} event={event} />
+              ))}
+            </div>
           </div>
         ) : (
-          <div className="noEvents">No events found</div>
+          <div className="resultBox">
+            <div className="noEvents">No events found</div>
+          </div>
         )}
       </div>
-    </div>
     </div>
   );
 };
 
 export default SearchPage;
+
+

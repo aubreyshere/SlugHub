@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Homepage.css';
 import SearchBar from './searchBar'; 
 import EventPreview from './EventPreview';
+import Loading from './Loading';
 
 const Homepage = () => {
     const [events, setEvents] = useState([]);
@@ -91,7 +92,7 @@ const Homepage = () => {
                     <SearchBar />
                     <RecommendedHeader />
                 </div>
-                <div className="loading">Loading events...</div>
+                <Loading />
             </div>
         );
     }
