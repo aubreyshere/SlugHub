@@ -147,3 +147,9 @@ input:-webkit-autofill {
 .signInForm div h1 {
     margin-bottom: 5px;
 }
+
+@media screen and (max-width: 1024px) {
+    .signInPage {
+        height: 70vh;
+    }
+}

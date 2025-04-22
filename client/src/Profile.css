@@ -10,6 +10,9 @@
     font-family: 'Poppins';
 }
 
+.activeEvents {
+    padding: 20px;
+}
 .eventsList {
     display: flex;
     flex-wrap: wrap; 
@@ -69,3 +72,82 @@
     flex-direction: column;   
     justify-content: flex-end;
 }
+
+@media screen and (max-width: 1024px) {
+    .leftProfileBox {
+      flex-direction: column;
+      height: auto;
+      padding: 20px;
+      gap: 10px;
+      font-size: 16px;
+    }
+  
+    .profileBox {
+      margin: 30px 15px;
+    }
+  
+    .eventsList {
+      gap: 30px;
+      justify-content: center;
+    }
+  
+    .logOutBox {
+      width: 100%;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .logOutBox button {
+        height:30px;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .leftProfileBox {
+      padding: 15px;
+      font-size: 14px;
+    }
+  
+    .profileBox h2 {
+      font-size: 22px;
+    }
+  
+    .eventsList {
+      flex-direction: column;
+      gap: 20px;
+    }
+  
+    .logOutBox {
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .leftProfileBox {
+      padding: 10px;
+      font-size: 13px;
+    }
+  
+    .usernameDisplay,
+    .emailDisplay,
+    .passwordDisplay {
+      font-size: 13px;
+    }
+  
+    .profileBox h2 {
+      font-size: 20px;
+      text-align: center;
+    }
+  
+    .eventsList {
+      padding: 10px;
+    }
+  
+    .logOutBox {
+      width: 100%;
+      margin-top: 15px;
+      align-items: center;
+    }
+  }
+  
