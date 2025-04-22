@@ -18,7 +18,7 @@ const CreateAccount = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('Submitting values:', values);  // Debug
+    console.log('Submitting values:', values); 
 
     if (values.password !== values.confirmPassword) {
       console.error('Passwords do not match!');
@@ -37,23 +37,17 @@ const CreateAccount = () => {
   };
 
   return (
-    <div class="SignUpWaveWrapper">
-    <svg width="0" height="0">
-        <defs>
-            /*need to make the container wavy on the sides!*/
-        </defs>
-    </svg>
-    
-    <div className='container'>
+    <div class="signUpPage">
+    <div className='signInContainer'>
       <div className='signUpBox'>
-        <div className='signUpHeader'>
-          <h2>Create Account</h2>
+        <div className='accountHeader'>
+          <h2>- Create Account -</h2>
         </div>
-        <form onSubmit={handleSubmit}>
-          <div className='email'>
+        <form className='signInForm' onSubmit={handleSubmit}>
+          <div>
             <h1>Email</h1>
             <input
-              className='emailInput'
+              className='accountInput'
               type='text'
               placeholder='Enter Email'
               name='email'
@@ -61,10 +55,10 @@ const CreateAccount = () => {
               onChange={handleChange}
             />
           </div>
-          <div className='username'>
+          <div>
             <h1>Username</h1>
             <input
-              className='usernameInput'
+              className='accountInput'
               type='text'
               placeholder='Enter Username'
               name='username'
@@ -72,10 +66,10 @@ const CreateAccount = () => {
               onChange={handleChange}
             />
           </div>
-          <div className='pass'>
+          <div>
             <h1>Password</h1>
             <input
-              className='passwordInput'
+              className='accountInput'
               type='password'
               placeholder='Enter Password'
               name='pass'
@@ -83,10 +77,10 @@ const CreateAccount = () => {
               onChange={handleChange}
             />
           </div>
-          <div className='passConfirm'>
+          <div>
             <h1>Confirm Password</h1>
             <input
-              className='passwordConfirmInput'
+              className='accountInput'
               type='password'
               placeholder='Confirm Password'
               name='confirmPassword'
@@ -94,16 +88,14 @@ const CreateAccount = () => {
               onChange={handleChange}
             />
           </div>
-          <br />
-          <button className='createAccount-signButton'>Sign Up</button>
-          <br />
-          <div className='noAccount'>
+          <button className='accountButton'>Sign Up</button>
+        </form>
+        <div className='signInNoAccount'>
             Have an account?
             <button className='createAccountLink' onClick={() => { navigate('/sign-in'); }}>
               Login here!
             </button>
           </div>
-        </form>
       </div>
     </div>
   </div>

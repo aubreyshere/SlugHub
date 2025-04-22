@@ -34,12 +34,11 @@ const SignIn = ({ setIsLoggedIn }) => { // Accept setIsLoggedIn as a prop
     }
 
     return (
-        <div className="waveWrapper">
+        <div className="signInPage">
             <div className="signInContainer">
                 <div className="signInBox">
-                    <div className="signInForm">
-                        <form onSubmit={handleSubmit}>
-                            <div className="signInHeader">
+                        <form className="signInForm" onSubmit={handleSubmit}>
+                            <div className="accountHeader">
                                 <h2>- Sign In -</h2>
                             </div>
                             <div className="signInEmail">
@@ -54,16 +53,15 @@ const SignIn = ({ setIsLoggedIn }) => { // Accept setIsLoggedIn as a prop
                             <div className="signInPass">
                                 <h1>Password</h1>
                                 <input
-                                    className="signInPasswordInput"
+                                    className="accountInput"
                                     type="password"
                                     placeholder="Enter Password"
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
-                            <br />
-                            <button className="signIn-signButton">Sign in</button>
-                            <br />
-                            <div className="signInNoAccount">
+                            <button className="accountButton">Sign in</button>
+                        </form>
+                        <div className="signInNoAccount">
                                 Don't have an account?
                                 <button
                                     className="signInCreateAccountLink"
@@ -73,11 +71,9 @@ const SignIn = ({ setIsLoggedIn }) => { // Accept setIsLoggedIn as a prop
                                 </button>
                             </div>
                             <button className="signInForgotPass">Forgot password?</button>
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
     );
 };
 

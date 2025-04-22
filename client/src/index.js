@@ -12,6 +12,7 @@ import EventPage from './EventPage';
 import ProtectedRoute from './ProtectedRoute'; 
 import SearchPage from './SearchPage';
 import Profile from './Profile';
+import Footer from './Footer'; 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -45,6 +46,7 @@ const App = () => {
                     <Route path="/profile" element={<Profile setIsLoggedIn={setIsLoggedIn} />} />
                 </Route>
             </Routes>
+            <Footer />
         </BrowserRouter>
     );
 };

@@ -8,6 +8,13 @@ html, body {
     overflow-x: hidden;
 }
 
+.signInPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #F5F5F5;
+}
 input[type=text] {
     font-family: 'Poppins';
     text-indent: 4px;
@@ -18,43 +25,30 @@ input[type=text] {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 50px;
+    margin-top: 100px;
     margin-bottom: 100px;
-    width: 410px;   /* set width */
-    height: 440px;  /* set height */
+    box-sizing: content-box;
     background: #ffe77d;
     border-radius: 10px;
     border-width: 20px;
+    padding: 30px;
 
-    /*clip-path: url(#waveClip);   <-- uncomment after making wave for signInBox */
 }
 
-/*wave wrapper & wave aspect*/
-
-.waveWrapper {
-    border-radius: 20px;
-    position: fixed;  /*'absolute' for scrollable page*/
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin-top: 10vh;
-  }
-
-  /*wave wrapper & wave aspect end*/
 
 .signInForm {
-    margin: 20px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.signInHeader {
-    font-size: 24px;
+.accountHeader {
+    font-size: 12px;
     text-align: center;
     font-family: 'Poppins';
-    padding-bottom: 30px;
-    position: fixed;   /* centers in the middle of the page */
-    left: 50%;
-    top: 29%;
-    transform: translate(-50%, -50%);
 }
 
 .signInBox {
@@ -67,69 +61,56 @@ input[type=text] {
     border-color: #163785;
     height: 370px;
     width: 320px;
+    padding: 20px;
 }
 
 .signInEmail {
-    padding: 10px;    
-    padding-bottom: -20px;
-    margin-left: 5px;
     font-size: 12px;
-    width: 50%;
-    margin-top: 20px;
+    width: 90%;
 }
 
 .signInEmailInput {
     margin-top: 5px;
     text-indent: 4px;
-    width: 50%;
+    width: 100%;
     border-radius: 4px;
     font-family: 'Poppins';
     background-color: #e6faff;
     border-color: #000000;
-    position: absolute;   /* centers in the middle of the page */
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 .signInPass {
-    padding: 10px;
-    width: 50%;
-    margin-left: 5px;
+    width: 90%;
     font-size: 12px;
 }
 
-.signInPasswordInput {
+.accountInput {
     font-family: 'Poppins';
-    width: 50%;
+    width: 100%;
     text-indent: 4px;
     border-radius: 4px;
     border-color: #000000;
     background-color: #e6faff;
-    position: absolute;   /* centers in the middle of the page */
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
-input:-webkit-autofill {   /*fills the input fields for PasswordInput & UsernameInput*/
+input:-webkit-autofill {   
     background-color: #e6faff !important;
     -webkit-box-shadow: 0 0 0px 1000px #e6faff inset !important; /* Ensures color stays */
     color: black !important;
 }
 
-.signIn-signButton {
+.accountButton {
     border: none;
     cursor: pointer;
     padding: 0px;
-    margin-top: 5px;
+    margin-top: 20px;
     border-radius: 5px;
-    width: 52%;
+    width: 90%;
     height: 30px;
     color: white;
     background-color: #163785;
     font-family: 'Poppins';
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+
 }
 
 .signInBox .signIn-signButton:hover {
@@ -138,7 +119,8 @@ input:-webkit-autofill {   /*fills the input fields for PasswordInput & Username
 
 .signInNoAccount {
     font-size: 10pt;
-    margin-top: 20px;
+    padding-top: 10px;
+    text-align: center;
 }
 .signInCreateAccountLink {
     color: #5083E0;
@@ -160,8 +142,8 @@ input:-webkit-autofill {   /*fills the input fields for PasswordInput & Username
     cursor: pointer;
     font-size: 10pt;
     font-family: 'Poppins';
+}
 
-    position: absolute;
-    left: 50%; /* horizontally positioned at center */
-    transform: translateX(-50%); /* horizontally translated to center */
+.signInForm div h1 {
+    margin-bottom: 5px;
 }
