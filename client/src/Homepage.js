@@ -40,26 +40,13 @@ const Homepage = () => {
         {/* wavyyyyy */}
         <svg style={{ position: 'absolute', height: 0 }}>
             <defs>
-            <filter id="dropShadowAbove" x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
-                <feOffset dy="-3" result="offsetblur"/>
-                <feFlood floodColor="rgba(0,0,0,0.3)"/>
-                <feComposite in2="offsetblur" operator="in"/>
-                <feMerge>
-                <feMergeNode/>
-                <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-            </filter>
-            <filter id="dropShadowBelow" x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
-                <feOffset dy="3" result="offsetblur"/>
-                <feFlood floodColor="rgba(0,0,0,0.3)"/>
-                <feComposite in2="offsetblur" operator="in"/>
-                <feMerge>
-                <feMergeNode/>
-                <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-            </filter>
+            <filter id="dropShadowAbove" x="-20%" y="-40%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="-3" stdDeviation="3" flood-color="rgba(0,0,0,0.3)" />
+                </filter>
+
+                <filter id="dropShadowBelow" x="-20%" y="40%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,0.3)" />
+                </filter>
             </defs>
         </svg>
         
@@ -68,6 +55,7 @@ const Homepage = () => {
             d="M0,40 C150,0 300,40 450,20 C600,0 750,20 900,30 C1050,40 1200,10 1200,10 L1200,40 L0,40 Z" 
             fill="#F0C419"
             filter="url(#dropShadowAbove)"
+            transform="translate(0, -9)"
             />
         </svg>
         
@@ -80,6 +68,7 @@ const Homepage = () => {
             d="M0,10 C200,30 300,-5 500,25 C700,5 800,35 1000,15 C1100,5 1150,25 1200,15 L1200,0 L0,0 Z"  
             fill="#F0C419"
             filter="url(#dropShadowBelow)"
+            transform="translate(0, 10)"
             />
         </svg>
         </div>

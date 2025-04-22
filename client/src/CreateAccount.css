@@ -66,7 +66,7 @@ input:-webkit-autofill {   /*fills the input fields for PasswordInput & Username
     border-radius: 5px;
 }
 
-.signUpBox .createAccount-signButton:hover {
+.signUpBox .accountButton:hover {
     color: #ddd;
 }
 .noAccount {

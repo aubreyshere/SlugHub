@@ -3,7 +3,7 @@ import './SignIn.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const SignIn = ({ setIsLoggedIn }) => { // Accept setIsLoggedIn as a prop
+const SignIn = ({ setIsLoggedIn }) => { 
     const navigate = useNavigate();
     const [email, setEmail] = useState(''); 
     const [password, setPassword] = useState(''); 

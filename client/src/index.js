@@ -30,10 +30,11 @@ const App = () => {
     }, []);
 
     return (
-        <BrowserRouter>
-            <div>
-                <Navbar loggedIn={isLoggedIn} setLoggedIn={setIsLoggedIn} />
-            </div>
+<BrowserRouter>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <Navbar loggedIn={isLoggedIn} setLoggedIn={setIsLoggedIn} />
+        
+        <div style={{ flex: 1 }}>
             <Routes>
                 <Route path="/" element={<Homepage />} />
                 <Route path="/sign-in" element={<SignIn setIsLoggedIn={setIsLoggedIn} />} />
@@ -46,8 +47,12 @@ const App = () => {
                     <Route path="/profile" element={<Profile setIsLoggedIn={setIsLoggedIn} />} />
                 </Route>
             </Routes>
-            <Footer />
-        </BrowserRouter>
+        </div>
+
+        <Footer />
+    </div>
+</BrowserRouter>
+
     );
 };
 

@@ -1,13 +1,18 @@
 const express = require('express');
+const app = express();
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const { Timestamp } = require('firebase-admin/firestore');
 const { db } = require('./firebaseAdminSetup');
-const app = express();
 const jwt = require('jsonwebtoken');
 const { Firestore } = require('firebase-admin/firestore');
-const { body, validationResult } = require('express-validator');
+const multer = require('multer');
+const path = require('path');
+const { body, validationResult } = require('express-validator'); // if you're using validation
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
 
 const SECRET_KEY = 'your_jwt_secret';
 
@@ -17,6 +22,7 @@ app.use(cors({
 }));
 
 app.use(express.json());
+
 
 app.use(express.json({ limit: '10mb' })); 
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
@@ -44,55 +50,59 @@ const authenticateToken = (req, res, next) => {
 };
 
 // Create Event
-app.post('/create-event', authenticateToken, async (req, res) => {
-  const { title, description, photo, date, startTime, endTime, location } = req.body;
-  const user_id = req.user.userId; 
+app.post('/create-event', authenticateToken, upload.single('photo'), async (req, res) => {
+  const { title, description, date, startTime, endTime, location } = req.body;
+  const user_id = req.user.userId;
 
   const MAX_TITLE_LENGTH = 100;
   const MAX_DESCRIPTION_LENGTH = 500;
   const MAX_LOCATION_LENGTH = 100;
 
-  const MAX_FILE_SIZE = 5 * 1024 * 1024; 
-
   if (!title || !description || !date || !location) {
-      return res.status(400).json({ message: 'Required fields missing!' });
+    return res.status(400).json({ message: 'Required fields missing!' });
   }
 
   if (title.length > MAX_TITLE_LENGTH) {
-      return res.status(400).json({ message: `Title exceeds ${MAX_TITLE_LENGTH} characters.` });
+    return res.status(400).json({ message: `Title exceeds ${MAX_TITLE_LENGTH} characters.` });
   }
   if (description.length > MAX_DESCRIPTION_LENGTH) {
-      return res.status(400).json({ message: `Description exceeds ${MAX_DESCRIPTION_LENGTH} characters.` });
+    return res.status(400).json({ message: `Description exceeds ${MAX_DESCRIPTION_LENGTH} characters.` });
   }
   if (location.length > MAX_LOCATION_LENGTH) {
-      return res.status(400).json({ message: `Location exceeds ${MAX_LOCATION_LENGTH} characters.` });
+    return res.status(400).json({ message: `Location exceeds ${MAX_LOCATION_LENGTH} characters.` });
   }
 
-  if (req.file && req.file.size > MAX_FILE_SIZE) {
-      return res.status(400).json({ message: `File size exceeds the limit of 5MB.` });
-  }
+  let photoBase64 = null;
+  if (req.file) {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(req.file.mimetype)) {
+      return res.status(400).json({ message: 'Only JPEG, PNG, or WebP images are allowed.' });
+    }
 
+    photoBase64 = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+  }
   try {
-      const eventData = {
-          title,
-          description,
-          photo: photo || null,
-          date,
-          startTime: startTime || null,
-          endTime: endTime || null,
-          location,
-          created_at: Timestamp.fromDate(new Date()),
-          user_id,
-      };
+    const eventData = {
+      title,
+      description,
+      photo: photoBase64,
+      date,
+      startTime: startTime || null,
+      endTime: endTime || null,
+      location,
+      created_at: Timestamp.fromDate(new Date()),
+      user_id,
+    };
 
-      const docRef = await db.collection('events').add(eventData);
-      console.log('New event created successfully with ID:', docRef.id);
-      return res.status(201).json({ message: 'Event created successfully', eventId: docRef.id });
+    const docRef = await db.collection('events').add(eventData);
+    console.log('New event created successfully with ID:', docRef.id);
+    return res.status(201).json({ message: 'Event created successfully', eventId: docRef.id });
   } catch (err) {
-      console.error('Error creating event:', err);
-      return res.status(500).json({ message: 'Failed to create event' });
+    console.error('Error creating event:', err);
+    return res.status(500).json({ message: 'Failed to create event' });
   }
 });
+
 
 
 // get user by id

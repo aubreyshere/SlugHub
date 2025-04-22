@@ -8,43 +8,54 @@ const CreateEvent = () => {
   const [values, setValues] = useState({
     title: '',
     description: '',
-    photo: '',
     date: '',
     startTime: '',
     endTime: '',
     location: '', 
   });
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState('');
 
   const handleChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFile(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => setPreview(event.target.result);
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('Submitting values:', values);
 
     const user_id = localStorage.getItem('userId');
-    if (!user_id) {
-      console.error('User ID is missing');
+    const token = localStorage.getItem('token');
+
+    if (!user_id || !token) {
       alert('You must be signed in to create an event.');
       return;
     }
 
-    if (!values.title || !values.description || !values.date || !values.location) {
-      console.error('Required fields are missing');
-      alert('Please fill in all required fields.');
-      return;
-    }
-
-    const requestBody = { ...values, user_id };
-    console.log('Request Body:', requestBody);
-
-    const token = localStorage.getItem('token');
+    const formData = new FormData();
+    formData.append('title', values.title);
+    formData.append('description', values.description);
+    formData.append('date', values.date);
+    formData.append('startTime', values.startTime);
+    formData.append('endTime', values.endTime);
+    formData.append('location', values.location);
+    formData.append('photo', file); // actual file upload
+    formData.append('user_id', user_id);
 
     axios
-      .post('http://localhost:4000/create-event', requestBody, {
+      .post('http://localhost:4000/create-event', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
         },
       })
       .then((res) => {
@@ -68,20 +79,11 @@ const CreateEvent = () => {
               accept="image/*"
               name="photo"
               style={{ display: 'none' }}
-              onChange={(e) => {
-                const file = e.target.files[0];
-                if (file) {
-                  const reader = new FileReader();
-                  reader.onload = (event) => {
-                    setValues({ ...values, photo: event.target.result });
-                  };
-                  reader.readAsDataURL(file);
-                }
-              }}
+              onChange={handleFileChange}
             />
             <label htmlFor="fileInput" className="uploadButton">
-              {values.photo ? (
-                <img src={values.photo} alt="Preview" className="uploadedImage" />
+              {preview ? (
+                <img src={preview} alt="Preview" className="uploadedImage" />
               ) : (
                 'Upload Image'
               )}
@@ -95,10 +97,8 @@ const CreateEvent = () => {
                 value={values.title}
                 onChange={handleChange}
               />
-              <p className= 'subtitle'>
-                * max 100 characters
-              </p>
-              </div>
+              <p className='subtitle'>* max 100 characters</p>
+            </div>
             <div className='inputContainer2'>
               <textarea
                 className="eventDescriptionUpload"
@@ -106,55 +106,48 @@ const CreateEvent = () => {
                 name="description"
                 value={values.description}
                 onChange={handleChange}
-                rows={6} // You can change the number of rows if needed
+                rows={6}
               />
-              <p className= 'subtitle'>
-                * max 500 characters
-              </p>
+              <p className='subtitle'>* max 500 characters</p>
             </div>
           </div>
           <div className="rightBox">
             <div className="trackingInput">
               <input
-                  className="dateInput"
-                  type="date"
-                  placeholder="mm-dd-yyyy"
-                  name="date"
-                  value={values.date}
-                  onChange={handleChange}
+                className="dateInput"
+                type="date"
+                name="date"
+                value={values.date}
+                onChange={handleChange}
               />
               <div className="timeInput">
                 <input
                   className="timeInputStart"
                   type="time"
-                  placeholder="00:00"
                   name="startTime"
                   value={values.startTime}
                   onChange={handleChange}
                 />
-                <br/>
+                <br />
                 <input
                   className="timeInputEnd"
                   type="time"
-                  placeholder="00:00"
                   name="endTime"
                   value={values.endTime}
                   onChange={handleChange}
                 />
-            </div>
-            <div className='topBorder'>
-              <input
-                className="locationInput"
-                type="text"
-                placeholder="Event location..."
-                name="location"
-                value={values.location}
-                onChange={handleChange}
-              />
-              <p className= 'subtitle'>
-                * max 100 characters
-              </p>
-            </div>
+              </div>
+              <div className='topBorder'>
+                <input
+                  className="locationInput"
+                  type="text"
+                  placeholder="Event location..."
+                  name="location"
+                  value={values.location}
+                  onChange={handleChange}
+                />
+                <p className='subtitle'>* max 100 characters</p>
+              </div>
             </div>
             <button type="submit" className="postEvent">
               Post Event!
