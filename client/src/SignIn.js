@@ -70,7 +70,10 @@ const SignIn = ({ setIsLoggedIn }) => {
                                     Create one!
                                 </button>
                             </div>
-                            <button className="signInForgotPass">Forgot password?</button>
+                            <button 
+                            className="signInForgotPass"
+                            onClick={() => navigate('/forgot-password')}
+                            >Forgot password?</button>
                         </div>
                     </div>
                 </div>

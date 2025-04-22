@@ -13,6 +13,7 @@ import ProtectedRoute from './ProtectedRoute';
 import SearchPage from './SearchPage';
 import Profile from './Profile';
 import Footer from './Footer'; 
+import ForgotPassword from './ForgotPassword'; 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -36,6 +37,7 @@ const App = () => {
         
         <div style={{ flex: 1 }}>
             <Routes>
+                <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/" element={<Homepage />} />
                 <Route path="/sign-in" element={<SignIn setIsLoggedIn={setIsLoggedIn} />} />
                 <Route path="/create-account" element={<CreateAccount />} />

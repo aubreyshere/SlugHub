@@ -415,6 +415,46 @@ app.get('/search', async (req, res) => {
     }
   });
 
+// reset password
+app.post('/forgot-password', async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ message: 'Email is required.' });
+  }
+
+  try {
+    const userSnapshot = await db.collection('users').where('email', '==', email).get();
+
+    if (userSnapshot.empty) {
+      return res.status(404).json({ message: 'No user with this email.' });
+    }
+
+    const userDoc = userSnapshot.docs[0];
+    const resetToken = crypto.randomBytes(32).toString('hex');
+
+    await userDoc.ref.update({
+      resetToken,
+      resetTokenExpires: Timestamp.fromDate(new Date(Date.now() + 3600 * 1000)) // 1 hour
+    });
+
+    const resetLink = `http://localhost:3000/forgot-password?token=${resetToken}`;
+
+    await transporter.sendMail({
+      from: `"SlugHub" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: 'Password Reset Request',
+      html: `<p>Click <a href="${resetLink}">here</a> to reset your password. This link expires in 1 hour.</p>`
+    });
+
+    return res.status(200).json({ message: 'Password reset email sent.' });
+  } catch (err) {
+    console.error('Error in forgot-password:', err);
+    return res.status(500).json({ message: 'Server error.' });
+  }
+});
+
+
 const port = 4000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
