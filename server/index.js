@@ -8,13 +8,27 @@ const jwt = require('jsonwebtoken');
 const { Firestore } = require('firebase-admin/firestore');
 const multer = require('multer');
 const path = require('path');
-const { body, validationResult } = require('express-validator'); // if you're using validation
+const { body, validationResult } = require('express-validator'); 
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+
+require('dotenv').config();
+
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER, 
+    pass: process.env.EMAIL_PASS, 
+  },
+});
 
-const SECRET_KEY = 'your_jwt_secret';
+
+const SECRET_KEY = process.env.JWT_SECRET; 
+
 
 app.use(cors({
   origin: 'http://localhost:3000', 
@@ -151,83 +165,134 @@ app.get('/event/:eventId', async (req, res) => {
 
 // sign in
 app.post(
-    '/signin',
-    [
-      body('email').isEmail().withMessage('Invalid email'),
-      body('password').notEmpty().withMessage('Password is required'),
-    ],
-    async (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-  
-      const { email, password } = req.body;
-  
-      try {
-        const usersSnapshot = await db.collection('users').where('email', '==', email).get();
-  
-        if (usersSnapshot.empty) {
-          return res.status(401).json({ message: 'Email not found.' });
-        }
-  
-        const userDoc = usersSnapshot.docs[0];
-        const userData = userDoc.data();
-  
-        const isPasswordValid = await bcrypt.compare(password, userData.password);
-        if (!isPasswordValid) {
-          return res.status(401).json({ message: 'Incorrect password.' });
-        }
-  
-        const token = jwt.sign({ userId: userDoc.id }, SECRET_KEY, { expiresIn: '1h' });
-  
-        return res.json({
-          message: 'Login successful.',
-          token,
-          userId: userDoc.id,
-        });
-      } catch (err) {
-        console.error('Error during signin:', err);
-        return res.status(500).json({ message: 'Internal server error.' });
-      }
+  '/signin',
+  [
+    body('email').isEmail().withMessage('Invalid email'),
+    body('password').notEmpty().withMessage('Password is required'),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
-  );
+    
+    const { email, password } = req.body;
+
+    try {
+      const usersSnapshot = await db.collection('users').where('email', '==', email).get();
+
+      if (usersSnapshot.empty) {
+        return res.status(401).json({ message: 'Email not found.' });
+      }
+
+      const userDoc = usersSnapshot.docs[0];
+      const userData = userDoc.data();
+
+      const isPasswordValid = await bcrypt.compare(password, userData.password);
+      if (!isPasswordValid) {
+        return res.status(401).json({ message: 'Incorrect password.' });
+      }
+
+      // 🔐 Check if email is verified
+      if (!userData.emailVerified) {
+        return res.status(403).json({ message: 'Please verify your email before logging in.' });
+      }
+
+      const token = jwt.sign({ userId: userDoc.id }, SECRET_KEY, { expiresIn: '1h' });
+
+      return res.json({
+        message: 'Login successful.',
+        token,
+        userId: userDoc.id,
+      });
+    } catch (err) {
+      
+      console.error('Error during signin:', err);
+      return res.status(500).json({ message: 'Internal server error.' });
+    }
+  }
+);
 
 
 // Signup Route
 app.post('/signup', async (req, res) => {
-    const { username, email, password } = req.body;
+  const { username, email, password } = req.body;
 
-    if (!username || !email || !password) {
-        return res.status(400).json({ message: 'All fields are required!' });
+  if (!username || !email || !password) {
+    return res.status(400).json({ message: 'All fields are required!' });
+  }
+
+  if (password.length < 8) {
+    return res.status(400).json({ message: 'Password must be at least 8 characters long!' });
+  }
+
+  try {
+    console.log('Checking for existing user...');
+    const emailSnapshot = await db.collection('users').where('email', '==', email).get();
+
+    if (!emailSnapshot.empty) {
+      return res.status(400).json({ message: 'Email already in use.' });
     }
 
-    if (password.length < 8) {
-        return res.status(400).json({ message: 'Password must be at least 8 characters long!' });
+    console.log('Hashing password...');
+    console.log(process.env.EMAIL_USER);  // Should print your Gmail address
+    console.log(process.env.EMAIL_PASS);  // Should print the app password
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const verificationToken = crypto.randomBytes(32).toString('hex');
+
+    const userData = {
+      username,
+      email,
+      password: hashedPassword,
+      emailVerified: false,
+      verificationToken,
+      created_at: Timestamp.fromDate(new Date()),
+    };
+
+    console.log('Creating user document...');
+    const docRef = await db.collection('users').add(userData);
+
+    const verificationLink = `http://localhost:4000/verify-email?token=${verificationToken}`;
+    console.log('Sending verification email to:', email);
+
+    await transporter.sendMail({
+      from: `"SlugHub" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: 'Please verify your email',
+      html: `<p>Click <a href="${verificationLink}">here</a> to verify your email.</p>`,
+    });
+
+    return res.status(201).json({ message: 'Signup successful. Please check your email to verify your account.' });
+  } catch (err) {
+    console.error('Error during signup:', err);
+    return res.status(500).json({ message: 'Failed to create user', error: err.message });
+  }
+});
+
+
+// verify email
+app.get('/verify-email', async (req, res) => {
+  const { token } = req.query;
+
+  try {
+    const usersSnapshot = await db.collection('users').where('verificationToken', '==', token).get();
+
+    if (usersSnapshot.empty) {
+      return res.status(400).send('Invalid or expired verification link.');
     }
 
-    try {
-        const emailSnapshot = await db.collection('users').where('email', '==', email).get();
-        if (!emailSnapshot.empty) {
-            return res.status(400).json({ message: 'Email already in use.' });
-        }
+    const userDoc = usersSnapshot.docs[0];
+    await userDoc.ref.update({
+      emailVerified: true,
+      verificationToken: null,
+    });
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const userData = {
-            username,
-            email,
-            password: hashedPassword,
-            created_at: Timestamp.fromDate(new Date()), 
-        };
-
-        const docRef = await db.collection('users').add(userData);
-        console.log('New user created successfully with ID:', docRef.id);
-        return res.status(201).json({ message: 'User created successfully', userId: docRef.id });
-    } catch (err) {
-        console.error('Error creating user:', err);
-        return res.status(500).json({ message: 'Failed to create user', error: err.message });
-    }
+    res.send('Email verified successfully! You can now log in.');
+  } catch (err) {
+    console.error('Error verifying email:', err);
+    res.status(500).send('Internal server error');
+  }
 });
 
 // recommended page
