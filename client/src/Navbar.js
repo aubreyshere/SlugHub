@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = ({ loggedIn, setLoggedIn }) => {
     const navigate = useNavigate();
+    const [menuOpen, setMenuOpen] = useState(false);
 
+    const toggleMenu = () => {
+        setMenuOpen(prev => !prev);
+    };
 
     return (
         <div className="navBarContainer">
@@ -13,26 +17,35 @@ const Navbar = ({ loggedIn, setLoggedIn }) => {
                     <img className="logoImage" alt="logoImage" src="/images/Slug-No-Background-Clip-Art.png" />
                     SlugHub
                 </div>
-                <ul className="nav-links">
-                    <button className="buttonNav" onClick={() => navigate('/')}>
+                <button className="menu-toggle" onClick={toggleMenu}>☰
+                <ul className={`nav-links ${menuOpen ? 'show' : ''}`}>
+                    <button className="buttonNav" onClick={() => { navigate('/'); setMenuOpen(false); }}>
                         <img src="/images/Home.png" alt="homeNav" />
                     </button>
                     <button
                         className="buttonNav"
-                        onClick={() => navigate(loggedIn ? '/create-event' : '/sign-in')}
+                        onClick={() => {
+                            navigate(loggedIn ? '/create-event' : '/sign-in');
+                            setMenuOpen(false);
+                        }}
                     >
                         <img src="/images/Plus.png" alt="createNav" />
                     </button>
                     <button
                         className="buttonNav"
-                        onClick={() => navigate(loggedIn ? '/profile' : '/sign-in')}
+                        onClick={() => {
+                            navigate(loggedIn ? '/profile' : '/sign-in');
+                            setMenuOpen(false);
+                        }}
                     >
                         <img src="/images/settings.png" alt="profileNav" />
                     </button>
                 </ul>
+                </button>
+
             </nav>
-            
-            {/* waveeee*/}
+
+            {/* waveeee */}
             <svg 
                 className="nav-wave" 
                 viewBox="0 10 1200 110" 
